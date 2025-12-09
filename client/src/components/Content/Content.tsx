@@ -1,9 +1,9 @@
-import DashboardPage from "../../pages/DashboardPage/DashboardPage.tsx";
+import HomePage from "../../pages/HomePgae/HomePage.tsx";
 
 function Content() {
     return (
         <div>
-            <DashboardPage />
+            <HomePage />
         </div>
     );
 }
