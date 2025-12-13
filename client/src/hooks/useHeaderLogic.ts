@@ -33,6 +33,7 @@ export const useHeaderLogic = (): UseHeaderLogic => {
     const handleLogOut = () => {
         setAnchorEl(null);
         dispatch(logout());
+        sessionStorage.removeItem('token');
     };
 
     //Open menu user icon

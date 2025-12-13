@@ -9,7 +9,6 @@ import closeRoutesV1 from './routes/v1/close';
 import {dbClient, dbConnect} from "./db";
 import {API_CLOSE_PATH_PREFIX, API_OPEN_PATH_PREFIX, API_V1} from "./routes/v1/api-paths";
 import {login, register} from "./controllers/auth-controller";
-import {QUERIES} from "./datasources/queries";
 
 const app = express();
 const openRouter = express.Router();

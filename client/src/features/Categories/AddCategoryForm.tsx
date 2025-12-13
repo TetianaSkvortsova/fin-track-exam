@@ -4,7 +4,6 @@ import {StyledToggleButton, StyledToggleButtonGroup} from "../../components/Cate
 import {useState} from "react";
 import type {CategoryType} from "../../types";
 import * as React from "react";
-// import {loginSuccessMock} from "../../store/user/userSlice.ts";
 
 type AddCategoryFormProps = {
     onCloseModal: () => void;
@@ -40,7 +39,6 @@ const AddCategoryForm: React.FC<AddCategoryFormProps> = ({onCloseModal}) => {
         event.preventDefault();
         console.log('Create category:', formState);
         //dispatch(registerUser(formState))
-        // dispatch(loginSuccessMock());
         onCloseModal();
     };
 

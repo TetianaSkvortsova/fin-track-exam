@@ -15,7 +15,7 @@ const generateToken = (user: { id: number, email: string }) => {
 
 
 export const register = async (req: Request, res: Response) => {
-    const {email, password, name} = req.body;
+    const {email, password, name, lastname} = req.body;
 
     if (!email || !password) {
         return res.status(400).json({error: 'Email and password are required'});
@@ -25,7 +25,7 @@ export const register = async (req: Request, res: Response) => {
         const saltRounds = 10;
         const passwordHash = await bcrypt.hash(password, saltRounds);
 
-        const values = [email, passwordHash, name];
+        const values = [email, passwordHash, name, lastname];
 
         const result = await dbClient.query(QUERIES.INSERT_NEW_USER, values);
         const newUser = result.rows[0];

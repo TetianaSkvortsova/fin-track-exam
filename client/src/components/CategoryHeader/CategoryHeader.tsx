@@ -1,7 +1,7 @@
 import {StyledButton, StyledToggleButton, StyledToggleButtonGroup} from "./CategoryHeader.styled.ts";
 import {TEXT} from "../../constants/textConstants.ts";
 import './CategoryHeader.scss';
-import {useCategoriesHeaderLogic} from "../../hooks/useCategoriesHeaderLogic.ts";
+import {useCategoriesHeaderLogic} from "../../features/Categories/useCategoriesHeaderLogic.ts";
 
 
 function CategoryHeader() {

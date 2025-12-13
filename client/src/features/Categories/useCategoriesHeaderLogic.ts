@@ -1,8 +1,8 @@
 import {useState} from "react";
-import {TEXT} from "../constants/textConstants.ts";
-import {openModal} from "../store/modal/modalSlice.ts";
-import {useAppDispatch} from "../store/hooks.ts";
-import type {CategoryType} from "../types";
+import {TEXT} from "../../constants/textConstants.ts";
+import {openModal} from "../../store/modal/modalSlice.ts";
+import {useAppDispatch} from "../../store/hooks.ts";
+import type {CategoryType} from "../../types";
 
 export type UseCategoriesHeaderLogic = {
     categoryType: CategoryType;
