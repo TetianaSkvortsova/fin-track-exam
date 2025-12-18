@@ -28,12 +28,11 @@ export default function DashboardGrid() {
                 <Grid size={4}>
                     <Item>Expenses</Item>
                 </Grid>
-                <Grid size={8}>
+                <Grid size={6}>
                     <Item>Income and Expenses by Month</Item>
                 </Grid>
-                <Grid size={4}>
+                <Grid size={6}>
                     <Item>
-                        <h3>Expense Distribution by Category</h3>
                         <CategoriesChart />
                     </Item>
                 </Grid>

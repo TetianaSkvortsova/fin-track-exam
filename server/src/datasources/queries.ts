@@ -28,6 +28,10 @@ export const QUERIES = Object.freeze({
                             WHERE id = $1 and user_id = $2
                             RETURNING *
                             `,
+    SELECT_BALANCE_BY_USER_ID: `select sum(tr.amount)::numeric(24, 8) as amount
+                                from categories c
+                                         inner join transactions tr on tr.category_id = c.id
+                                where c.user_id = $1`,
     SELECT_CATEGORY_BY_CATEGORY_TYPE: `select c.id, 
                                               c.name, 
                                               sum(COALESCE(t.amount, 0)) as amount
