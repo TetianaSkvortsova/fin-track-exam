@@ -31,4 +31,6 @@ export type UserState = {
 
 export type Balance = {
     amount: string;
+    expenses: string,
+    income: string,
 }
