@@ -25,7 +25,6 @@ export type ResponseData = {
 export type UserState = {
     isAuthenticated: boolean;
     user: ResponseUserData | null;
-    balance: Balance;
     error?: string;
 }
 

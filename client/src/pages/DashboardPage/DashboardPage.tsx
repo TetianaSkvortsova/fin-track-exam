@@ -3,7 +3,7 @@ import './DashboardPage.scss';
 import DashboardGrid from "../../components/DashboardGrid/DashboardGrid.tsx";
 import {useEffect} from "react";
 import {useAppDispatch} from "../../store/hooks.ts";
-import {getBalanceByCategoryType} from "../../store/user/userSlice.ts";
+import {getBalanceByCategoryType} from "../../store/balance/balanceSlice.ts";
 import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 
 function DashboardPage() {

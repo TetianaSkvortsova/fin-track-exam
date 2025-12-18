@@ -29,8 +29,7 @@ const ICONS_MAP: Record<IconType, JSX.Element> = {
 };
 
 export default function DashboardGrid() {
-    const balance = useAppSelector(state => state.user.balance);
-    console.log(balance);
+    const balance = useAppSelector(state => state.balance);
     const cards: { type: IconType; title: string, balance: string }[] = [
         { type: 'balance', title: 'Balance', balance: balance.amount },
         { type: 'income', title: 'Income', balance: balance.income },
