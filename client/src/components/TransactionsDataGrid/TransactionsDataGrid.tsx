@@ -7,6 +7,8 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 import {Delete, Edit} from "@mui/icons-material";
 import './TransactionsDataGrid.scss';
+// import {openModal} from "../../store/modal/modalSlice.ts";
+// import { useAppDispatch } from "../../store/hooks.ts";
 // import {openDeleteDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
 
 type TransactionsProps = {
@@ -36,8 +38,13 @@ const prepareRows = (transactions: Transaction[]) => {
 }
 
 function TransactionsDataGrid({transactions}: TransactionsProps) {
+    // const dispatch = useAppDispatch();
     const rows = useMemo(() => prepareRows(transactions), [transactions]);
-    console.log(rows[0]);
+    /*const handleAddTransaction = () => {
+        dispatch(openModal({ type: 'ADD_TRANSACTION' }));
+    }*/
+
+
     const columns: GridColDef[] = [
         {
             field: 'category',
