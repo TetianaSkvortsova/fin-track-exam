@@ -28,6 +28,7 @@ export const TEXT = {
 
     FORMS: {
         SIGN_UP: "sign up",
+        LOGIN: "login",
         NAME: "name",
         LASTNAME: "lastname",
         EMAIL: "email",

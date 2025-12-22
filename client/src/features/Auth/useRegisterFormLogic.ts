@@ -64,11 +64,9 @@ export const useRegisterFormLogic = ({onCloseModal}: UseRegisterFormProps) => {
 
         if (name === 'email' && registrationError) {
             dispatch(clearRegistrationError());
-            console.log('Registration error cleared');
         }
     };
 
-    // Stub to send form data
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setErrors({});

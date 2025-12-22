@@ -13,7 +13,7 @@ import Menu from "../Menu/Menu.tsx";
 
 function App() {
     const dispatch = useAppDispatch();
-    const isAuth = sessionStorage.getItem('token');
+    const isAuth = useAppSelector(state => state.user.isAuthenticated);
     const {open, title, description, confirmText, idToDelete, actionType} = useAppSelector(state => state.dialog);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ function App() {
         <>
             <Header/>
             <div className={'content-wrapper'}>
-                <Menu />
+                {isAuth && <Menu />}
                 <Content/>
             </div>
 

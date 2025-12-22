@@ -11,6 +11,7 @@ export type FormErrors = {
 }
 
 export type RegisterData = Omit<UserData, 'repeatPassword'>;
+export type LoginData = Pick<UserData, 'email' | 'password'>;
 
 export type ResponseUserData = {
     id: string;
