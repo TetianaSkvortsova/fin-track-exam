@@ -9,11 +9,12 @@ import {deleteCategory, getCategoryTypes} from "../../store/category/categorySli
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
 import {closeDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
 import {deleteTransaction} from "../../store/transactions/transactionsSlice.ts";
+import Menu from "../Menu/Menu.tsx";
 
 function App() {
     const dispatch = useAppDispatch();
     const isAuth = sessionStorage.getItem('token');
-    const { open, title, description, confirmText, idToDelete, actionType } = useAppSelector(state => state.dialog);
+    const {open, title, description, confirmText, idToDelete, actionType} = useAppSelector(state => state.dialog);
 
     useEffect(() => {
         dispatch(setAuthToken());
@@ -34,6 +35,11 @@ function App() {
     return (
         <>
             <Header/>
+            <div className={'content-wrapper'}>
+                <Menu />
+                <Content/>
+            </div>
+
             <AppModal/>
             <ConfirmationDialog
                 open={open}
@@ -42,7 +48,7 @@ function App() {
                 title={title}
                 description={description}
                 confirmText={confirmText}/>
-            <Content/>
+
         </>
     )
 }
