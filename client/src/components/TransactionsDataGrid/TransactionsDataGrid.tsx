@@ -70,7 +70,7 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
             disableColumnMenu: true,
             renderCell: (params) => {
                 if (params.row.isHeader) return null;
-                const isIncome = params.row.categoryTypeId === INCOME_CATEGORY_ID; //
+                const isIncome = params.row.categoryTypeId === INCOME_CATEGORY_ID;
                 const iconClass = `type-icon ${isIncome ? 'income' : 'expense'}`;
 
                 return (
@@ -126,7 +126,7 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
             sortable: false,
             disableColumnMenu: true,
             renderCell: (params) => {
-                const val = Number(params.value).toFixed(2); //
+                const val = Number(params.value).toFixed(2);
                 return (
                     <Box sx={{
                         fontWeight: params.row.isHeader ? 800 : 500,
@@ -156,7 +156,6 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
                             <IconButton
                                 size="small"
                                 className="action-button edit-btn"
-                                // onClick={() => console.log(params.row.id)}
                                 onClick={() => handleEditTransaction(params.row.id)}
                             >
                                 <Edit fontSize="small" />

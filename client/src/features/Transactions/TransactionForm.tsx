@@ -39,13 +39,13 @@ const TransactionForm: React.FC<TransactionFormProps> = ({onCloseModal}) => {
                 minWidth: 300
             }}>
             <Typography variant="h5" gutterBottom align="center">
-                {TEXT.FORMS.TRANSACTION_FORM_TITLE}
+                {currentTransaction ? TEXT.FORMS.TRANSACTION_FORM_TITLE_UPDATE : TEXT.FORMS.TRANSACTION_FORM_TITLE}
             </Typography>
             <Grid container spacing={2}>
                 <TextField
                     required
                     fullWidth
-                    label={TEXT.FORMS.TRANSACTION_FORM_TITLE}
+                    label={TEXT.FORMS.AMOUNT}
                     name="amount"
                     value={formState.amount}
                     onChange={handleChange}

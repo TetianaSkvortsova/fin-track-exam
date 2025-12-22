@@ -51,7 +51,6 @@ export const createTransaction = createAsyncThunk<Transaction, RequestAddTransac
     'transactions/createTransaction',
     async (newTransaction: RequestAddTransaction, {rejectWithValue}) => {
         const {id, ...rest} = newTransaction;
-        console.log(rest);
         try {
             const {data} = await client.post(TRANSACTIONS_URL, rest);
             return data;
