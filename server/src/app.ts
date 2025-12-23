@@ -15,7 +15,7 @@ import {
     appendSimpleCategory, deleteCategoryById,
     getCategoriesByCategoryType,
     getCategoryById,
-    getCategoryTypes, getGoalsByCategoryType,
+    getCategoryTypes, getGoalById, getGoalsByCategoryType,
     updateCategoryById
 } from "./controllers/categories-controller";
 import {
@@ -106,9 +106,12 @@ closeRouter.post(`${API_V1.CLOSE.POST.GOALS}`, authenticateJWT, (request: Reques
     return appendGoal(request, response);
 });
 
-
 closeRouter.get(API_V1.CLOSE.GET.GOALS, authenticateJWT, (request: Request, response: Response) => {
     return getGoalsByCategoryType(request, response);
+});
+
+closeRouter.get(`${API_V1.CLOSE.GET.GOALS}/:id`, authenticateJWT, (request: Request, response: Response) => {
+    return getGoalById(request, response);
 });
 
 

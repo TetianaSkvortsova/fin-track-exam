@@ -40,8 +40,8 @@ function GoalsPage() {
                 </Button>
             </div>
             <div className='page-wrapper__cards'>
-                {goals.map((goal, index) =>
-                    <GoalCard key={index} goal={goal}/>
+                {goals.map((goal) =>
+                    <GoalCard key={goal.id} goal={goal}/>
                 )}
             </div>
         </div>

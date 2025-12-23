@@ -138,4 +138,11 @@ export const QUERIES = Object.freeze({
                         values ($1, $2, $3, $4, $5)
                         returning *
                         `,
+    SELECT_GOAL_BY_ID: `SELECT c.id, 
+                            c.name, 
+                            c.goal_amount,
+                            c.goal_target_date
+                        FROM categories c
+                        WHERE c.id = $1 and c.user_id = $2 and c.category_type_id = $3
+                            `,
 });

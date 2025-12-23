@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import type {Goal} from "../../types";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import * as React from "react";
@@ -10,7 +10,7 @@ type GoalsFormProps = {
 
 export const useGoalsFormLogic = ({onCloseModal}: GoalsFormProps) => {
     const dispatch = useAppDispatch();
-    const currentGoal = useAppSelector(state => state.categories.currentCategory);
+    const currentGoal = useAppSelector(state => state.goals.currentGoal) as Goal | null;
     const [formState, setFormState] = useState<Goal>({
         id: '',
         name: '',
@@ -18,6 +18,18 @@ export const useGoalsFormLogic = ({onCloseModal}: GoalsFormProps) => {
         targetDate: '',
         balance: '0',
     });
+
+    useEffect(() => {
+        if(currentGoal) {
+            setFormState({
+                id: currentGoal.id,
+                name: currentGoal.name || '',
+                targetAmount: currentGoal.targetAmount || '',
+                targetDate: currentGoal.targetDate || '',
+                balance: currentGoal.balance || '0',
+            });
+        }
+    }, [currentGoal]);
 
     const handleSubmit = () => {
         dispatch(createGoal(formState));

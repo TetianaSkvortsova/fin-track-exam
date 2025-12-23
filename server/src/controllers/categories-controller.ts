@@ -104,3 +104,16 @@ export const getGoalsByCategoryType = async (request: Request, response: Respons
         return response.status(500).json({message: error.message});
     }
 }
+
+export const getGoalById = async (request: Request, response: Response) => {
+    try {
+        const {userId} = (request as any).user;
+        const id = request.params.id;
+        const values = [id, userId, '00000001-0000-0000-0000-000000000003'];
+        const result = await db.query(QUERIES.SELECT_GOAL_BY_ID, values);
+        return response.status(200).json(result.rows.length > 0 ? result.rows[0] : {});
+    }
+    catch (error) {
+        return response.status(500).json({message: error.message});
+    }
+}

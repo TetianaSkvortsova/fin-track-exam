@@ -2,7 +2,6 @@ import axios from "axios";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import type {Goal, GoalsState, NewGoalsResponse} from "../../types";
 import moment from "moment/moment";
-import {deleteCategory} from "../category/categorySlice.ts";
 
 const initialState: GoalsState = {
     goals: [],
@@ -75,6 +74,26 @@ export const deleteGoal = createAsyncThunk(
     }
 )
 
+export const getGoalById = createAsyncThunk(
+    'goals/getGoalById',
+    async (goalId: string, {rejectWithValue}) => {
+        try {
+            const {data} = await client.get(`${GOAL_URL}/${goalId}`);
+            const correctDate = moment(data.goal_target_date).format("D MMM YYYY");
+
+            return {
+                id: data.id,
+                name: data.name,
+                targetDate: correctDate,
+                targetAmount: data.goal_amount ? Number(data.goal_amount).toFixed(2) : '0.00',
+            };
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue("Error getting category");
+        }
+    }
+)
+
 export const goalsSlice = createSlice({
     name: 'goals',
     initialState,
@@ -101,6 +120,14 @@ export const goalsSlice = createSlice({
                 state.goals = state.goals.filter((goal) => goal.id !== action.payload);
             })
             .addCase(deleteGoal.rejected, (state, action) => {
+                state.error = action.payload as string;
+            });
+
+        builder
+            .addCase(getGoalById.fulfilled, (state, action) => {
+                state.currentGoal = action.payload;
+            })
+            .addCase(getGoalById.rejected, (state, action) => {
                 state.error = action.payload as string;
             });
     }

@@ -7,9 +7,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {useState} from "react";
 import {openDeleteDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
 import {useAppDispatch} from "../../store/hooks.ts";
+import {getGoalById} from "../../store/goals/goalsSlice.ts";
+import {openModal} from "../../store/modal/modalSlice.ts";
 
 type GoalCardProps = {
-    key: number;
+    key: string;
     goal: GoalsCard;
 }
 
@@ -23,14 +25,24 @@ function GoalCard({key, goal}: GoalCardProps) {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleDelete = () => {
+        handleClose();
         dispatch(openDeleteDialog({
             id: goal.id,
             actionType: 'DELETE_GOAL',
             title: "Delete goal?",
             description: `Are you sure you want to delete this goal?`
         }))
+    };
+
+    const handleEdit = () => {
+        handleClose();
+        dispatch(getGoalById(goal.id));
+        dispatch(openModal({type: 'EDIT_GOAL'}));
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     return (
@@ -78,8 +90,8 @@ function GoalCard({key, goal}: GoalCardProps) {
                         horizontal: 'right',
                     }}
                 >
-                    <MenuItem onClick={handleClose}>Edit</MenuItem>
-                    <MenuItem onClick={handleClose} sx={{ color: 'error.main' }}>Delete</MenuItem>
+                    <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                    <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>Delete</MenuItem>
                 </Menu>
             </Paper>
         </Box>
