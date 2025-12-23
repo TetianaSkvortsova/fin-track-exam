@@ -102,6 +102,24 @@ export const QUERIES = Object.freeze({
                                  JOIN categories c ON t.category_id = c.id
                         WHERE t.id = $1 AND t.user_id = $2
                         `,
+    SELECT_GOALS_BY_USER_ID: `
+                        SELECT
+                            c.id,                            
+                            c.category_type_id,
+                            c.name,
+                            c.goal_amount,
+                            c.goal_target_date,
+                            sum(t.amount) as amount
+                        FROM categories c
+                            left outer join transactions t on c.id = t.category_id
+                        WHERE c.user_id = $1 and c.category_type_id = $2
+                        group by c.id,
+                                 c.user_id,
+                                 c.category_type_id,
+                                 c.name,
+                                 c.goal_amount,
+                                 c.goal_target_date
+                        `,
     APPEND_TRANSACTION: `
                         WITH inserted_row AS (
                         INSERT INTO transactions (user_id, category_id, "when", amount, description)
@@ -115,4 +133,9 @@ export const QUERIES = Object.freeze({
                         FROM inserted_row i
                                  JOIN categories c ON i.category_id = c.id
                     `,
+    INSERT_GOAL: `
+                        insert into categories (user_id, category_type_id, name, goal_amount, goal_target_date) 
+                        values ($1, $2, $3, $4, $5)
+                        returning *
+                        `,
 });

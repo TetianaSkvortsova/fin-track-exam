@@ -1,11 +1,12 @@
 .goal-card {
-  width: 280px;
+  width: 270px;
   padding: 24px;
   border-radius: 12px !important;
   border: 1px solid #f0f2f5;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  margin: 7px;
 
   &__header {
     margin-bottom: 12px;

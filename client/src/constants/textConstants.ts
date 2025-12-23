@@ -43,5 +43,7 @@ export const TEXT = {
         TRANSACTION_FORM_TITLE_UPDATE: "update transaction",
         DESCRIPTION: "description",
         AMOUNT: "enter amount",
+        GOAL_FORM_TITLE: "create new goal",
+        GOAL_FORM_TITLE_UPDATE: "update goal",
     } as const,
 };

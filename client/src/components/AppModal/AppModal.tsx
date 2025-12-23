@@ -7,6 +7,7 @@ import {closeModal} from "../../store/modal/modalSlice.ts";
 import AddCategoryForm from "../../features/Categories/AddCategoryForm.tsx";
 import TransactionForm from "../../features/Transactions/TransactionForm.tsx";
 import LoginForm from "../../features/Auth/LoginForm/LoginForm.tsx";
+import GoalsForm from "../../features/Goals/GoalsForm.tsx";
 
 const MODAL_COMPONENTS: Record<string, React.FC<any>> = {
     'REGISTER': RegisterForm,
@@ -15,6 +16,8 @@ const MODAL_COMPONENTS: Record<string, React.FC<any>> = {
     'EDIT_CATEGORY': AddCategoryForm,
     'ADD_TRANSACTION': TransactionForm,
     'EDIT_TRANSACTION': TransactionForm,
+    'ADD_GOAL': GoalsForm,
+    'EDIT_GOAL': GoalsForm,
 };
 
 const AppModal = () => {

@@ -10,6 +10,7 @@ import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
 import {closeDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
 import {deleteTransaction} from "../../store/transactions/transactionsSlice.ts";
 import Menu from "../Menu/Menu.tsx";
+import {deleteGoal} from "../../store/goals/goalsSlice.ts";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -27,6 +28,8 @@ function App() {
                 dispatch(deleteCategory(idToDelete));
             } else if (actionType === 'DELETE_TRANSACTION') {
                 dispatch(deleteTransaction(idToDelete));
+            } else if (actionType === 'DELETE_GOAL') {
+                dispatch(deleteGoal(idToDelete));
             }
         }
         dispatch(closeDialog());
@@ -36,7 +39,7 @@ function App() {
         <>
             <Header/>
             <div className={'content-wrapper'}>
-                {isAuth && <Menu />}
+                {isAuth && <Menu/>}
                 <Content/>
             </div>
 

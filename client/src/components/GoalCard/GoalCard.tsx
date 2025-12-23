@@ -5,6 +5,8 @@ import type {GoalsCard} from "../../types";
 import {IconButton, Menu, MenuItem} from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {useState} from "react";
+import {openDeleteDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
+import {useAppDispatch} from "../../store/hooks.ts";
 
 type GoalCardProps = {
     key: number;
@@ -12,6 +14,7 @@ type GoalCardProps = {
 }
 
 function GoalCard({key, goal}: GoalCardProps) {
+    const dispatch = useAppDispatch();
     const progress = Math.min((Number(goal.balance) / Number(goal.targetAmount)) * 100, 100);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -22,6 +25,12 @@ function GoalCard({key, goal}: GoalCardProps) {
 
     const handleClose = () => {
         setAnchorEl(null);
+        dispatch(openDeleteDialog({
+            id: goal.id,
+            actionType: 'DELETE_GOAL',
+            title: "Delete goal?",
+            description: `Are you sure you want to delete this goal?`
+        }))
     };
 
     return (
@@ -29,7 +38,7 @@ function GoalCard({key, goal}: GoalCardProps) {
             <Paper key={key} elevation={2} className="goal-card">
                 <div className="goal-card__header">
                     <div className="goal-card__title-row">
-                    <h3 className="goal-card__title">{goal.name}</h3>
+                        <h3 className="goal-card__title">{goal.name}</h3>
                         <IconButton
                             aria-label="settings"
                             onClick={handleClick}

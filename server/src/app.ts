@@ -11,10 +11,11 @@ import {dbConnect} from "./db";
 import {API_CLOSE_PATH_PREFIX, API_OPEN_PATH_PREFIX, API_V1} from "./routes/v1/api-paths";
 import {login, register} from "./controllers/auth-controller";
 import {
+    appendGoal,
     appendSimpleCategory, deleteCategoryById,
     getCategoriesByCategoryType,
     getCategoryById,
-    getCategoryTypes,
+    getCategoryTypes, getGoalsByCategoryType,
     updateCategoryById
 } from "./controllers/categories-controller";
 import {
@@ -100,6 +101,16 @@ closeRouter.delete(`${API_V1.CLOSE.DELETE.TRANSACTIONS}/:id`, authenticateJWT, (
 closeRouter.get(`${API_V1.CLOSE.GET.TRANSACTIONS}/:id`, authenticateJWT, (request: Request, response: Response) => {
     return getTransactionById(request, response);
 });
+
+closeRouter.post(`${API_V1.CLOSE.POST.GOALS}`, authenticateJWT, (request: Request, response: Response) => {
+    return appendGoal(request, response);
+});
+
+
+closeRouter.get(API_V1.CLOSE.GET.GOALS, authenticateJWT, (request: Request, response: Response) => {
+    return getGoalsByCategoryType(request, response);
+});
+
 
 const routes = listEndpoints(app);
 console.table(routes.map(route => ({

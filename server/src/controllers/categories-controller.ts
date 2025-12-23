@@ -78,3 +78,29 @@ export const deleteCategoryById = async (request: Request, response: Response) =
         return response.status(500).json({message: error.message});
     }
 }
+
+export const appendGoal = async (request: Request, response: Response) => {
+    try {
+        const {userId} = (request as any).user;
+        const {name, targetAmount, targetDate} = request.body;
+        const values = [userId, '00000001-0000-0000-0000-000000000003', name, targetAmount, targetDate];
+        const result = await db.query(QUERIES.INSERT_GOAL, values);
+        return response.status(201).json(result.rows[0]);
+    }
+    catch (error) {
+        return response.status(500).json({message: error.message});
+    }
+}
+
+export const getGoalsByCategoryType = async (request: Request, response: Response) => {
+    try {
+        const {userId} = (request as any).user;
+        const values = [userId, '00000001-0000-0000-0000-000000000003'];
+        const dbQuery = QUERIES.SELECT_GOALS_BY_USER_ID;
+        const result = await db.query(dbQuery, values);
+        return response.status(200).json(result.rows);
+    }
+    catch (error) {
+        return response.status(500).json({message: error.message});
+    }
+}

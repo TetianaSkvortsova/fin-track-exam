@@ -1,6 +1,6 @@
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 
-type ActionType = 'DELETE_CATEGORY' | 'DELETE_TRANSACTION';
+type ActionType = 'DELETE_CATEGORY' | 'DELETE_TRANSACTION' | 'DELETE_GOAL';
 type DialogState = {
     open: boolean;
     title: string;

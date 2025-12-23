@@ -16,4 +16,9 @@
     display: flex;
     justify-content: space-between;
   }
+
+  &__cards {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
