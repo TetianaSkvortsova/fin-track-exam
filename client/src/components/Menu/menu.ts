@@ -4,7 +4,8 @@ import CategoriesPage from "../../pages/CategoriesPage/CategoriesPage.tsx";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CategoryIcon from '@mui/icons-material/Category';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-// import AdjustIcon from '@mui/icons-material/Adjust';
+import AdjustIcon from '@mui/icons-material/Adjust';
+import GoalsPage from "../../pages/GoalsPage/GoalsPage.tsx";
 
 export type TMenuItem = {
     path: string;
@@ -16,7 +17,7 @@ export type TMenuItem = {
 export const urls = {
     DASHBOARD_URL: '/dashboard',
     TRANSACTIONS_URL: '/transactions',
-    // GOALS_URL: '/goals',
+    GOALS_URL: '/goals',
     CATEGORIES_URL: '/categories',
 };
 
@@ -33,12 +34,12 @@ export const menuItems: TMenuItem[] = [
         icon: ReceiptLongIcon,
         Component: TransactionsPage
     },
-    /*{
+    {
         path: urls.GOALS_URL,
-        title: 'Transactions',
+        title: 'Goals',
         icon: AdjustIcon,
         Component: GoalsPage
-    },*/
+    },
     {
         path: urls.CATEGORIES_URL,
         title: 'Categories',

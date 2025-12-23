@@ -18,6 +18,7 @@ export const TEXT = {
         CATEGORIES_PAGE: "categories",
         DASHBOARD_PAGE: "dashboard",
         TRANSACTIONS_PAGE: "transactions",
+        GOALS_PAGE: "financial goals",
     } as const,
 
     PAGES_TEXTS: {

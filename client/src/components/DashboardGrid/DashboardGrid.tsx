@@ -23,17 +23,18 @@ const Item = styled(Paper)(({theme}) => ({
 type IconType = 'balance' | 'income' | 'expense';
 
 const ICONS_MAP: Record<IconType, JSX.Element> = {
-    balance: <SavingsIcon sx={{ color: '#2196F3', fontSize: 80 }} />,
-    income: <TrendingUpIcon sx={{ color: '#4CAF50', fontSize: 80 }} />,
-    expense: <TrendingDownIcon sx={{ color: '#F44336', fontSize: 80 }} />
+    balance: <SavingsIcon sx={{color: '#2196F3', fontSize: 80}}/>,
+    income: <TrendingUpIcon sx={{color: '#4CAF50', fontSize: 80}}/>,
+    expense: <TrendingDownIcon sx={{color: '#F44336', fontSize: 80}}/>
 };
 
 export default function DashboardGrid() {
     const balance = useAppSelector(state => state.balance);
+    const isTransactions = useAppSelector(state => state.transactions.transactions.length > 0);
     const cards: { type: IconType; title: string, balance: string }[] = [
-        { type: 'balance', title: 'Balance', balance: balance.amount },
-        { type: 'income', title: 'Income', balance: balance.income },
-        { type: 'expense', title: 'Expenses', balance: balance.expenses },
+        {type: 'balance', title: 'Balance', balance: balance.amount},
+        {type: 'income', title: 'Income', balance: balance.income},
+        {type: 'expense', title: 'Expenses', balance: balance.expenses},
     ];
 
     return (
@@ -50,14 +51,19 @@ export default function DashboardGrid() {
                         </Item>
                     </Grid>
                 ))}
-                <Grid size={6}>
-                    <Item>Income and Expenses by Month</Item>
-                </Grid>
-                <Grid size={6}>
-                    <Item>
-                        <CategoriesChart/>
-                    </Item>
-                </Grid>
+                {isTransactions &&
+                    <>
+                        <Grid size={6}>
+                            <Item>Income and Expenses by Month</Item>
+                        </Grid>
+                        <Grid size={6}>
+                            <Item>
+                                <CategoriesChart/>
+                            </Item>
+                        </Grid>
+                    </>
+                }
+
                 <Grid size={4}>
                     <Item>Financial Goals</Item>
                 </Grid>
@@ -67,7 +73,9 @@ export default function DashboardGrid() {
                 <Grid size={4}>
                     <Item>Financial Goals</Item>
                 </Grid>
+
             </Grid>
         </Box>
-    );
+    )
+        ;
 }

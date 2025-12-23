@@ -1,5 +1,5 @@
 import {TEXT} from "../../constants/textConstants.ts";
-import './DashboardPage.scss';
+import '../../styles/styles.scss';
 import DashboardGrid from "../../components/DashboardGrid/DashboardGrid.tsx";
 import {useEffect} from "react";
 import {useAppDispatch} from "../../store/hooks.ts";
@@ -15,7 +15,7 @@ function DashboardPage() {
     }, [dispatch]);
 
     return (
-    <div className={'dashboard-wrapper'}>
+    <div className={'page-wrapper'}>
         <h1>{TEXT.TITLES.DASHBOARD_PAGE}</h1>
         <DashboardGrid />
     </div>

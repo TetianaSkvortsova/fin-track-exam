@@ -18,7 +18,7 @@ function App() {
 
     useEffect(() => {
         dispatch(setAuthToken());
-        dispatch(getCategoryTypes());
+        if (isAuth) dispatch(getCategoryTypes());
     }, [dispatch, isAuth]);
 
     const handleConfirm = () => {

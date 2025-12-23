@@ -1,4 +1,4 @@
-import './CategoriesPage.scss';
+import '../../styles/styles.scss';
 import CategoryHeader from "../../components/CategoryHeader/CategoryHeader.tsx";
 import CategoriesDataGrid from "../../components/CategoryTable/CategoriesDataGrid.tsx";
 import {TEXT} from "../../constants/textConstants.ts";
@@ -15,7 +15,7 @@ function CategoriesPage() {
     }, [dispatch, categoriesTypeId]);
 
     return (
-        <div className={'categories-wrapper'}>
+        <div className={'page-wrapper'}>
             <h1>{TEXT.TITLES.CATEGORIES_PAGE}</h1>
             <CategoryHeader />
             <CategoriesDataGrid />

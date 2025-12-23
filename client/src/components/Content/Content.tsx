@@ -1,22 +1,20 @@
 import {Navigate, Route, Routes} from "react-router"; // Виправлено імпорт
 import { menuItems } from "../Menu/menu.ts";
 import HomePage from "../../pages/HomePage/HomePage.tsx";
-import {useAppSelector} from "../../store/hooks.ts";
 
 function Content() {
-    // const isAuth = sessionStorage.getItem('token');
-    const isAuth = useAppSelector(state => state.user.isAuthenticated);
+    const isAuth = sessionStorage.getItem('token');
     return (
         <Routes>
-            <Route path="/" element={!isAuth ? <HomePage /> : <Navigate to="/dashboard" />} />
+            <Route path="/" element={isAuth ? <Navigate to="/dashboard" replace /> : <HomePage /> } />
             {menuItems.map(({ path, Component }) => (
                 <Route
                     key={path}
                     path={path}
-                    element={isAuth ? <Component /> : <Navigate to="/" />}
+                    element={isAuth ? <Component /> : <Navigate to="/" replace/>}
                 />
             ))}
-            <Route path="*" element={<div>No page</div>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );
 }
