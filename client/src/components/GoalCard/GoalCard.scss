@@ -17,6 +17,25 @@
     font-size: 18px;
     font-weight: 700;
     color: #2c3e50;
+    word-break: break-word; // Щоб довга назва не наповзала на кнопку
+    padding-right: 8px;
+  }
+
+  &__title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  &__more-button {
+    margin-top: -4px; // Трохи піднімаємо для візуального центрування з текстом
+    color: #94a3b8 !important;
+
+    &:hover {
+      background-color: #f1f5f9 !important;
+      color: #1e293b !important;
+    }
   }
 
   &__date {
@@ -34,7 +53,7 @@
   &__progress-container {
     width: 100%;
     height: 16px;
-    background-color: #e2e8f0; // Колір фону (сірий)
+    background-color: #e2e8f0;
     border-radius: 4px;
     margin-bottom: 16px;
     overflow: hidden;
@@ -42,7 +61,7 @@
 
   &__progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%); // Синій градієнт
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
     border-radius: 4px;
     transition: width 0.5s ease-in-out;
   }

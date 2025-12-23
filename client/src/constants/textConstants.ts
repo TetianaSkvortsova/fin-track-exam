@@ -3,6 +3,7 @@ export const TEXT = {
         SAVE: "save",
         CANCEL: "cancel",
         ADD_TRANSACTION: "add transaction",
+        ADD_GOAL: "add goal",
         NEW_CATEGORY: "+ create category",
         INCOME: "income",
         EXPENSE: "expense",

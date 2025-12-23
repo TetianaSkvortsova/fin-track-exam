@@ -30,7 +30,7 @@ export const StyledToggleButton = styled(ToggleButton)({
 export const StyledToggleButtonGroup = styled(ToggleButtonGroup)({
     border: 'none',
     display: 'flex',
-    marginTop: '30px',
+    marginRight: '5px',
     width: 'fit-content',
 
     '& .MuiToggleButtonGroup-grouped': {
