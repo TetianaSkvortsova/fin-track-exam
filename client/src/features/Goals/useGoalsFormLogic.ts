@@ -27,6 +27,7 @@ export const useGoalsFormLogic = ({onCloseModal}: GoalsFormProps) => {
                 targetAmount: currentGoal.targetAmount || '',
                 targetDate: currentGoal.targetDate || '',
                 balance: currentGoal.balance || '0',
+                completed: currentGoal.completed || false,
             });
 
         }
@@ -42,7 +43,6 @@ export const useGoalsFormLogic = ({onCloseModal}: GoalsFormProps) => {
             console.log('create: ', formState);
             dispatch(createGoal(formState));
         }
-        console.log('formState: ', formState);
         onCloseModal();
     }
 

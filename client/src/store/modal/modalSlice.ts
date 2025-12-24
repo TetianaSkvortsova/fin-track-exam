@@ -11,7 +11,7 @@ type ModalType =
     'EDIT_TRANSACTION' |
     'ADD_GOAL' |
     'EDIT_GOAL' |
-    'TOP_UP_GOAL' |
+    'SPEND' |
     'NONE';
 
 type ModalState = {

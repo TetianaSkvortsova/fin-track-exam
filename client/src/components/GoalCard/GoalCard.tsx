@@ -9,18 +9,20 @@ import {openDeleteDialog} from "../../store/confirmationDialog/confirmationDialo
 import {useAppDispatch} from "../../store/hooks.ts";
 import {getGoalById} from "../../store/goals/goalsSlice.ts";
 import {openModal} from "../../store/modal/modalSlice.ts";
-import { TEXT } from '../../constants/textConstants.ts';
+import {TEXT} from '../../constants/textConstants.ts';
+import Button from "@mui/material/Button";
 
 type GoalCardProps = {
-    key: string;
     goal: GoalsCard;
 }
 
-function GoalCard({key, goal}: GoalCardProps) {
+function GoalCard({goal}: GoalCardProps) {
     const dispatch = useAppDispatch();
     const progress = Math.min((Number(goal.balance) / Number(goal.targetAmount)) * 100, 100);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const isReached = Number(goal.balance) >= Number(goal.targetAmount);
+    const isCompleted = goal.completed === true;
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -42,10 +44,10 @@ function GoalCard({key, goal}: GoalCardProps) {
         dispatch(openModal({type: 'EDIT_GOAL'}));
     };
 
-    const handleTopUp = () => {
+    const handleSpend = () => {
         handleClose();
         dispatch(getGoalById(goal.id));
-        dispatch(openModal({type: 'TOP_UP_GOAL'}));
+        dispatch(openModal({type: 'SPEND'}));
     };
 
     const handleClose = () => {
@@ -54,7 +56,7 @@ function GoalCard({key, goal}: GoalCardProps) {
 
     return (
         <Box className="goals-container">
-            <Paper key={key} elevation={2} className="goal-card">
+            <Paper elevation={2} className="goal-card">
                 <div className="goal-card__header">
                     <div className="goal-card__title-row">
                         <h3 className="goal-card__title">{goal.name}</h3>
@@ -77,12 +79,34 @@ function GoalCard({key, goal}: GoalCardProps) {
                 </div>
                 <div className="goal-card__divider"></div>
 
-                <div className="goal-card__progress-container">
-                    <div
-                        className="goal-card__progress-bar"
-                        style={{width: `${progress}%`}}
-                    ></div>
-                </div>
+                {isCompleted ? (
+                    <div className="goal-card__status-completed">
+                        <span>🎉 Completed</span>
+                    </div>
+                ) : isReached ? (
+                    <Button
+                        variant="contained"
+                        onClick={handleSpend}
+                        sx={{
+                            backgroundColor: '#4CAF50',
+                            fontWeight: 600,
+                            height: '40px',
+                            '&:hover': {
+                                backgroundColor: '#2e7d32',
+                                boxShadow: 6,
+                            },
+                        }}
+                    >
+                        {TEXT.BUTTONS.SPEND}
+                    </Button>
+                ) : (
+                    <div className="goal-card__progress-container">
+                        <div
+                            className="goal-card__progress-bar"
+                            style={{width: `${progress}%`}}
+                        ></div>
+                    </div>
+                )}
 
                 <Menu
                     anchorEl={anchorEl}
@@ -98,8 +122,7 @@ function GoalCard({key, goal}: GoalCardProps) {
                     }}
                 >
                     <MenuItem onClick={handleEdit}>{TEXT.SUB_MENU.EDIT}</MenuItem>
-                    <MenuItem onClick={handleTopUp}>{TEXT.SUB_MENU.TOP_UP_GOAL}</MenuItem>
-                    <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>{TEXT.SUB_MENU.DELETE}</MenuItem>
+                    <MenuItem onClick={handleDelete} sx={{color: 'error.main'}}>{TEXT.SUB_MENU.DELETE}</MenuItem>
                 </Menu>
             </Paper>
         </Box>

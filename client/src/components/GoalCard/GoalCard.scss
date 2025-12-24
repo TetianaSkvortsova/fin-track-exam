@@ -8,6 +8,20 @@
   flex-direction: column;
   margin: 7px;
 
+  &__status-completed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px; // Такої ж висоти, як була кнопка чи прогрес-бар
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    color: #10b981; // Зелений колір успіху
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
   &__header {
     margin-bottom: 12px;
     text-align: left;

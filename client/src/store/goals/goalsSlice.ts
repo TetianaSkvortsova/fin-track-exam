@@ -30,7 +30,7 @@ export const createGoal = createAsyncThunk<NewGoalsResponse, Goal, { rejectValue
                 id: id,
                 name: name,
                 targetDate: goal_target_date,
-                targetAmount: goal_amount,
+                targetAmount: goal_amount ? Number(goal_amount).toFixed(2) : '0.00',
             }
         } catch (error) {
             console.log(error);
@@ -52,6 +52,7 @@ export const getGoals = createAsyncThunk(
                         targetDate: correctDate,
                         targetAmount: goal.goal_amount ? Number(goal.goal_amount).toFixed(2) : '0.00',
                         balance: goal.amount ? Number(goal.amount).toFixed(2) : '0.00',
+                        completed: goal.completed,
                     } as Goal;
                 })
             )
@@ -87,6 +88,7 @@ export const getGoalById = createAsyncThunk(
                 name: data.name,
                 targetDate: correctDate,
                 targetAmount: data.goal_amount ? Number(data.goal_amount).toFixed(2) : '0.00',
+                completed: data.completed,
             };
         } catch (error) {
             console.log(error);
@@ -101,13 +103,13 @@ export const updateGoal = createAsyncThunk<Goal, Goal, { rejectValue: string }>(
         const goalId = updatedGoal.id;
         try {
             const {data} = await client.put(`${GOAL_URL}/${goalId}`, updatedGoal);
-            console.log('data: ', data);
             return {
                 id: data.id,
                 name: data.name,
                 targetDate: data.goal_target_date,
                 targetAmount: data.goal_amount ? Number(data.goal_amount).toFixed(2) : '0.00',
                 balance: data.amount ? Number(data.amount).toFixed(2) : '0.00',
+                completed: data.completed,
             }
         } catch (error) {
             console.log(error);
@@ -119,7 +121,11 @@ export const updateGoal = createAsyncThunk<Goal, Goal, { rejectValue: string }>(
 export const goalsSlice = createSlice({
     name: 'goals',
     initialState,
-    reducers: {},
+    reducers: {
+        clearCurrentGoal: (state) => {
+            state.currentTransaction = null;
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(createGoal.fulfilled, (state, action) => {
@@ -165,5 +171,6 @@ export const goalsSlice = createSlice({
     }
 })
 
+export const {clearCurrentGoal} = goalsSlice.actions;
 export default goalsSlice.reducer;
 

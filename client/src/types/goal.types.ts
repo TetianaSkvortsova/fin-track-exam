@@ -4,6 +4,7 @@ export type Goal = {
     targetDate: string,
     balance: string,
     targetAmount: string,
+    completed: boolean,
 }
 
 export type GoalsState = {
@@ -12,9 +13,9 @@ export type GoalsState = {
     error: string | null,
 };
 
-export type TopUpGoal = {
-    id: string,
-    name: string,
+export type SpendGoal = {
+    categoryTypeId: string,
+    categoryId: string,
     amount: string,
     when: string,
     description: string,

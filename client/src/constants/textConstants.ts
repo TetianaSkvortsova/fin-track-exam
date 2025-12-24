@@ -11,6 +11,7 @@ export const TEXT = {
         LOGIN: "log in",
         EXIT: "exit",
         CREATE: "create",
+        SPEND: "spend",
     } as const,
 
     TITLES: {
@@ -45,6 +46,7 @@ export const TEXT = {
         AMOUNT: "enter amount",
         GOAL_FORM_TITLE: "create new goal",
         GOAL_FORM_TITLE_UPDATE: "update goal",
+        GOAL_FORM_TITLE_SPEND: "spend money",
     } as const,
 
     SUB_MENU: {

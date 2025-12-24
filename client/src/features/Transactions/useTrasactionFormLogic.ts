@@ -65,10 +65,12 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
         const isEditing = !!currentTransaction;
 
         if (isEditing) {
+            console.log('edit: ', formState);
             dispatch(updateTransaction(formState));
             onCloseModal();
         } else {
             dispatch(createTransaction(formState));
+            console.log('create: ', formState);
             onCloseModal();
         }
     }
