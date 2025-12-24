@@ -9,6 +9,7 @@ import {openDeleteDialog} from "../../store/confirmationDialog/confirmationDialo
 import {useAppDispatch} from "../../store/hooks.ts";
 import {getGoalById} from "../../store/goals/goalsSlice.ts";
 import {openModal} from "../../store/modal/modalSlice.ts";
+import { TEXT } from '../../constants/textConstants.ts';
 
 type GoalCardProps = {
     key: string;
@@ -39,6 +40,12 @@ function GoalCard({key, goal}: GoalCardProps) {
         handleClose();
         dispatch(getGoalById(goal.id));
         dispatch(openModal({type: 'EDIT_GOAL'}));
+    };
+
+    const handleTopUp = () => {
+        handleClose();
+        dispatch(getGoalById(goal.id));
+        dispatch(openModal({type: 'TOP_UP_GOAL'}));
     };
 
     const handleClose = () => {
@@ -90,8 +97,9 @@ function GoalCard({key, goal}: GoalCardProps) {
                         horizontal: 'right',
                     }}
                 >
-                    <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                    <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>Delete</MenuItem>
+                    <MenuItem onClick={handleEdit}>{TEXT.SUB_MENU.EDIT}</MenuItem>
+                    <MenuItem onClick={handleTopUp}>{TEXT.SUB_MENU.TOP_UP_GOAL}</MenuItem>
+                    <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>{TEXT.SUB_MENU.DELETE}</MenuItem>
                 </Menu>
             </Paper>
         </Box>

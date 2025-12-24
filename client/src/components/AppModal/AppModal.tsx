@@ -8,6 +8,7 @@ import AddCategoryForm from "../../features/Categories/AddCategoryForm.tsx";
 import TransactionForm from "../../features/Transactions/TransactionForm.tsx";
 import LoginForm from "../../features/Auth/LoginForm/LoginForm.tsx";
 import GoalsForm from "../../features/Goals/GoalsForm.tsx";
+import TransactionFormGoals from "../../features/Transactions/TransactionFormGoals/TransactionFormGoals.tsx";
 
 const MODAL_COMPONENTS: Record<string, React.FC<any>> = {
     'REGISTER': RegisterForm,
@@ -18,6 +19,7 @@ const MODAL_COMPONENTS: Record<string, React.FC<any>> = {
     'EDIT_TRANSACTION': TransactionForm,
     'ADD_GOAL': GoalsForm,
     'EDIT_GOAL': GoalsForm,
+    'TOP_UP_GOAL': TransactionFormGoals,
 };
 
 const AppModal = () => {

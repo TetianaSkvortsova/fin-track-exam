@@ -12,5 +12,13 @@ export type GoalsState = {
     error: string | null,
 };
 
+export type TopUpGoal = {
+    id: string,
+    name: string,
+    amount: string,
+    when: string,
+    description: string,
+};
+
 export type GoalsCard = Pick<Goal, 'id' | 'name' | 'targetDate' | 'balance' | 'targetAmount'>
 export type NewGoalsResponse = Omit<Goal, 'balance'>

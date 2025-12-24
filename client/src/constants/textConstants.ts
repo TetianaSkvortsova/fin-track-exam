@@ -46,4 +46,10 @@ export const TEXT = {
         GOAL_FORM_TITLE: "create new goal",
         GOAL_FORM_TITLE_UPDATE: "update goal",
     } as const,
+
+    SUB_MENU: {
+        EDIT: "edit",
+        DELETE: "delete",
+        TOP_UP_GOAL: "top ut goal",
+    } as const,
 };
