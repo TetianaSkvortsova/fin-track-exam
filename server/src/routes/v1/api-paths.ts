@@ -28,6 +28,7 @@ export const API_V1 = Object.freeze({
         PUT: {
             CATEGORIES: `/categories`,
             TRANSACTIONS: `/transactions`,
+            GOALS: `/goals`,
         },
         DELETE: {
             CATEGORIES: `/categories`,

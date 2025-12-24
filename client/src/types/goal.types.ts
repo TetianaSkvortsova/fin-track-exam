@@ -8,7 +8,7 @@ export type Goal = {
 
 export type GoalsState = {
     goals: Goal[],
-    currentGoal: null,
+    currentGoal: Goal | NewGoalsResponse | null,
     error: string | null,
 };
 

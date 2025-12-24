@@ -16,7 +16,7 @@ import {
     getCategoriesByCategoryType,
     getCategoryById,
     getCategoryTypes, getGoalById, getGoalsByCategoryType,
-    updateCategoryById
+    updateCategoryById, updateGoalById
 } from "./controllers/categories-controller";
 import {
     appendTransaction, deleteTransactionById, getTransactionById,
@@ -112,6 +112,10 @@ closeRouter.get(API_V1.CLOSE.GET.GOALS, authenticateJWT, (request: Request, resp
 
 closeRouter.get(`${API_V1.CLOSE.GET.GOALS}/:id`, authenticateJWT, (request: Request, response: Response) => {
     return getGoalById(request, response);
+});
+
+closeRouter.put(`${API_V1.CLOSE.PUT.GOALS}/:id`, authenticateJWT, (request: Request, response: Response) => {
+    return updateGoalById(request, response);
 });
 
 

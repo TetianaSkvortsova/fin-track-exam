@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import type {Goal} from "../../types";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import * as React from "react";
-import {createGoal} from "../../store/goals/goalsSlice.ts";
+import {createGoal, updateGoal} from "../../store/goals/goalsSlice.ts";
 
 type GoalsFormProps = {
     onCloseModal: () => void;
@@ -20,7 +20,7 @@ export const useGoalsFormLogic = ({onCloseModal}: GoalsFormProps) => {
     });
 
     useEffect(() => {
-        if(currentGoal) {
+        if (currentGoal) {
             setFormState({
                 id: currentGoal.id,
                 name: currentGoal.name || '',
@@ -28,18 +28,28 @@ export const useGoalsFormLogic = ({onCloseModal}: GoalsFormProps) => {
                 targetDate: currentGoal.targetDate || '',
                 balance: currentGoal.balance || '0',
             });
+
         }
     }, [currentGoal]);
 
-    const handleSubmit = () => {
-        dispatch(createGoal(formState));
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        const isEditing = !!currentGoal;
+        if (isEditing) {
+            console.log('edit: ', formState);
+            dispatch(updateGoal(formState));
+        } else {
+            console.log('create: ', formState);
+            dispatch(createGoal(formState));
+        }
+        console.log('formState: ', formState);
         onCloseModal();
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         const normalizedValue = name === 'targetAmount' ? value.replace(',', '.') : value;
-        if(name === 'targetAmount') {
+        if (name === 'targetAmount') {
             setFormState({
                 ...formState,
                 [name]: normalizedValue,

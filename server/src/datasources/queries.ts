@@ -24,6 +24,24 @@ export const QUERIES = Object.freeze({
                                 left outer join transactions t on uc.id = t.category_id
                             group by uc.id, uc.name
                             `,
+    UPDATE_GOAL_BY_ID: `with updated_category as (
+                            UPDATE categories
+                            SET
+                                name = $4,
+                                goal_target_date = $5,
+                                goal_amount = $6
+                            WHERE id = $1 and user_id = $2 and category_type_id = $3
+                                RETURNING *
+                        )
+                            select uc.id,
+                                   uc.name,
+                                   uc.goal_amount,
+                                   uc.goal_target_date,
+                                   sum(COALESCE(t.amount, 0)) as amount
+                            from updated_category as uc
+                                     left outer join transactions t on uc.id = t.category_id
+                            group by uc.id, uc.name, uc.goal_amount, uc.goal_target_date
+                            `,
     DELETE_CATEGORY_BY_ID: `DELETE from categories
                             WHERE id = $1 and user_id = $2
                             RETURNING *

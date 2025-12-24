@@ -1,7 +1,8 @@
 import axios from "axios";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import type {Goal, GoalsState, NewGoalsResponse} from "../../types";
+import type {Goal, GoalsState, NewGoalsResponse, RequestUpdate, ResponseDate} from "../../types";
 import moment from "moment/moment";
+import {updateCategory} from "../category/categorySlice.ts";
 
 const initialState: GoalsState = {
     goals: [],
@@ -94,6 +95,27 @@ export const getGoalById = createAsyncThunk(
     }
 )
 
+export const updateGoal = createAsyncThunk<Goal, Goal, { rejectValue: string }>(
+    'goals/updateGoal',
+    async (updatedGoal: Goal, {rejectWithValue}) => {
+        const goalId = updatedGoal.id;
+        try {
+            const {data} = await client.put(`${GOAL_URL}/${goalId}`, updatedGoal);
+            console.log('data: ', data);
+            return {
+                id: data.id,
+                name: data.name,
+                targetDate: data.goal_target_date,
+                targetAmount: data.goal_amount ? Number(data.goal_amount).toFixed(2) : '0.00',
+                balance: data.amount ? Number(data.amount).toFixed(2) : '0.00',
+            }
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue("Error creating category");
+        }
+    }
+)
+
 export const goalsSlice = createSlice({
     name: 'goals',
     initialState,
@@ -128,6 +150,16 @@ export const goalsSlice = createSlice({
                 state.currentGoal = action.payload;
             })
             .addCase(getGoalById.rejected, (state, action) => {
+                state.error = action.payload as string;
+            });
+
+        builder
+            .addCase(updateGoal.fulfilled, (state, action) => {
+                const updatedGoalIndex = state.goals.findIndex((goal) => goal.id === action.payload.id);
+                state.goals.splice(updatedGoalIndex, 1, action.payload);
+                state.currentGoal = null;
+            })
+            .addCase(updateCategory.rejected, (state, action) => {
                 state.error = action.payload as string;
             });
     }
