@@ -55,6 +55,7 @@ export const QUERIES = Object.freeze({
                                 where c.user_id = $1 and c.category_type_id <> '00000001-0000-0000-0000-000000000003'`,
     SELECT_TRANSACTIONS_BY_USER_ID: `select
                                          t.id,
+                                         t.category_id,
                                          c.category_type_id,
                                          c.name,
                                          t."when",
@@ -65,7 +66,8 @@ export const QUERIES = Object.freeze({
                                      where
                                          c.user_id = $1
                                 `,
-
+    FILTER_TRANSACTIONS_BY_WHEN_TO: ` and DATE(t."when") <= DATE($3)`,
+    FILTER_TRANSACTIONS_BY_WHEN_FROM: ` and DATE(t."when") >= DATE($2)`,
     SELECT_CATEGORY_BY_CATEGORY_TYPE: `select c.id, 
                                               c.name, 
                                               sum(COALESCE(t.amount, 0)) as amount
@@ -73,6 +75,12 @@ export const QUERIES = Object.freeze({
                                                 left outer join transactions t on c.id = t.category_id
                                        where c.user_id = $1 and c.category_type_id = $2
                                        group by c.id, c.name
+    `,
+    SELECT_CATEGORIES: `SELECT
+                            c.id,
+                            c.name
+                        FROM categories c
+                        WHERE c.user_id = $1
     `,
     SELECT_CATEGORY_BY_CATEGORY_TYPE_WITH_BALANCE: `select  
                                               sum(COALESCE(t.amount, 0)) as amount
@@ -121,6 +129,19 @@ export const QUERIES = Object.freeze({
                         FROM transactions t
                                  JOIN categories c ON t.category_id = c.id
                         WHERE t.id = $1 AND t.user_id = $2
+                        `,
+    SELECT_TRANSACTIONS_BY_CATEGORY_TYPE: `
+                        SELECT
+                            t.id,
+                            t.amount,
+                            t.description,
+                            t.when,
+                            c.name AS name,
+                            c.category_type_id,
+                            t.category_id
+                        FROM transactions t
+                                 JOIN categories c ON t.category_id = c.id
+                        WHERE c.category_type_id = $1 AND t.user_id = $2;
                         `,
     SELECT_GOALS_BY_USER_ID: `
                         SELECT

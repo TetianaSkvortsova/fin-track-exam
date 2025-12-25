@@ -28,8 +28,14 @@ const prepareRows = (transactions: Transaction[]) => {
                 isHeader: true,
                 date: currentDate,
                 amount: transactions
-                    .filter(t => (t.when.includes('T') ? t.when.split('T')[0] : t.when) === currentDate)
-                    .reduce((sum, t) => sum + Number(t.amount), 0)
+                    .filter(transaction => (transaction.when.includes('T') ? transaction.when.split('T')[0] : transaction.when) === currentDate)
+                    .reduce((sum, transaction) => {
+                        if (transaction.categoryTypeId === EXPENSE_CATEGORY_ID) {
+                            return sum + (Number(transaction.amount)*(-1));
+                        } else {
+                            return sum + Number(transaction.amount);
+                        }
+                    }, 0)
             });
             lastDate = currentDate;
         }
@@ -76,9 +82,9 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
                 return (
                     <Tooltip title={isIncome ? INCOME_CATEGORY_ID : EXPENSE_CATEGORY_ID}>
                         {isIncome ? (
-                            <ArrowUpwardIcon className={iconClass} />
+                            <ArrowUpwardIcon className={iconClass}/>
                         ) : (
-                            <ArrowDownwardIcon className={iconClass} />
+                            <ArrowDownwardIcon className={iconClass}/>
                         )}
                     </Tooltip>
                 );
@@ -151,14 +157,14 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
                 if (params.row.isHeader) return null;
 
                 return (
-                    <Stack direction="row" spacing={1} sx={{ alignItems: 'center', height: '100%' }}>
+                    <Stack direction="row" spacing={1} sx={{alignItems: 'center', height: '100%'}}>
                         <Tooltip title="Edit">
                             <IconButton
                                 size="small"
                                 className="action-button edit-btn"
                                 onClick={() => handleEditTransaction(params.row.id)}
                             >
-                                <Edit fontSize="small" />
+                                <Edit fontSize="small"/>
                             </IconButton>
                         </Tooltip>
 
@@ -173,7 +179,7 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
                                     description: `Are you sure you want to delete this transaction?`
                                 }))}
                             >
-                                <Delete fontSize="small" />
+                                <Delete fontSize="small"/>
                             </IconButton>
                         </Tooltip>
                     </Stack>

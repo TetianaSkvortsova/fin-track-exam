@@ -42,6 +42,8 @@ export const TEXT = {
         NEW_CATEGORY_INPUT_PLACEHOLDER: "new category",
         TRANSACTION_FORM_TITLE: "create new transaction",
         TRANSACTION_FORM_TITLE_UPDATE: "update transaction",
+        SELECT_CATEGORY_TYPES: "select category type",
+        SELECT_CATEGORY: "select category",
         DESCRIPTION: "description",
         AMOUNT: "enter amount",
         GOAL_FORM_TITLE: "create new goal",

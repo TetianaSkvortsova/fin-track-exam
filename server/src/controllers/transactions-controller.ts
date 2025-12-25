@@ -3,11 +3,21 @@ import * as db from '../db';
 import {Response, Request} from "express";
 
 
-export const selectTransactionsByUserId = async (request: Request, response: Response) => {
+export const getTransactionsByUserId = async (request: Request, response: Response) => {
     try {
         const {userId} = (request as any).user;
+        const {whenFrom, whenTo} = request.query;
         const values = [userId];
-        const result = await db.query(QUERIES.SELECT_TRANSACTIONS_BY_USER_ID, values);
+        let query: string = QUERIES.SELECT_TRANSACTIONS_BY_USER_ID;
+        if (!!whenFrom) {
+            query = `${query}${QUERIES.FILTER_TRANSACTIONS_BY_WHEN_FROM}`;
+            values.push(whenFrom);
+        }
+        if (!!whenTo) {
+            query = `${query}${QUERIES.FILTER_TRANSACTIONS_BY_WHEN_TO}`;
+            values.push(whenTo);
+        }
+        const result = await db.query(query, values);
         return response.status(200).json(result.rows);
     }
     catch (error) {
@@ -77,5 +87,22 @@ export const getTransactionById = async (request: Request, response: Response) =
     }
     catch (error) {
         return response.status(500).json({message: error.message});
+    }
+}
+
+export const getTransactionsByCategoryType = async (request: Request, response: Response) => {
+    try {
+        const {userId} = (request as any).user;
+        const id = request.params.id;
+        const values = [id, userId];
+        const result = await db.query(QUERIES.SELECT_TRANSACTIONS_BY_CATEGORY_TYPE, values);
+        return response.status(200).json(result.rows);
+    }
+    catch (error) {
+        console.error("FULL ERROR:", error);
+        return response.status(500).json({
+            message: error.message,
+            stack: error.stack
+        });
     }
 }

@@ -47,6 +47,19 @@ export const getCategoriesByType = createAsyncThunk(
     }
 )
 
+export const getCategories = createAsyncThunk(
+    'categories/getCategories',
+    async () => {
+        try {
+            const {data} = await client.get(`${CATEGORIES_URL}/all`);
+            return data;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
+)
+
 export const getCategoryById = createAsyncThunk(
     'categories/getCategoryById',
     async (categoryId: string, {rejectWithValue}) => {
@@ -132,6 +145,14 @@ export const categorySlice = createSlice({
             })
             .addCase(getCategoryTypes.rejected, (state, action) => {
                 state.error = action.payload;
+            });
+
+        builder
+            .addCase(getCategories.fulfilled, (state, action) => {
+                state.categories = action.payload;
+            })
+            .addCase(getCategories.rejected, (state, action) => {
+                state.error = action.payload as string;
             });
 
         builder

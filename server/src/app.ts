@@ -12,16 +12,16 @@ import {API_CLOSE_PATH_PREFIX, API_OPEN_PATH_PREFIX, API_V1} from "./routes/v1/a
 import {login, register} from "./controllers/auth-controller";
 import {
     appendGoal,
-    appendSimpleCategory, deleteCategoryById,
+    appendSimpleCategory, deleteCategoryById, getCategories,
     getCategoriesByCategoryType,
     getCategoryById,
     getCategoryTypes, getGoalById, getGoalsByCategoryType,
     updateCategoryById, updateGoalById
 } from "./controllers/categories-controller";
 import {
-    appendTransaction, deleteTransactionById, getTransactionById,
+    appendTransaction, deleteTransactionById, getTransactionById, getTransactionsByCategoryType,
     selectBalanceByUserId,
-    selectTransactionsByUserId, updateTransactionById
+    getTransactionsByUserId, updateTransactionById
 } from "./controllers/transactions-controller";
 
 const app = express();
@@ -58,6 +58,10 @@ closeRouter.get(API_V1.CLOSE.GET.CATEGORY_TYPES, authenticateJWT, (_: Request, r
     return getCategoryTypes(response);
 });
 
+closeRouter.get(API_V1.CLOSE.GET.CATEGORIES_ALL, authenticateJWT, (request: Request, response: Response) => {
+    return getCategories(request, response);
+});
+
 closeRouter.post(API_V1.CLOSE.POST.CATEGORIES, authenticateJWT, (request: Request, response: Response) => {
     return appendSimpleCategory(request, response);
 });
@@ -79,7 +83,7 @@ closeRouter.delete(`${API_V1.CLOSE.DELETE.CATEGORIES}/:id`, authenticateJWT, (re
 });
 
 closeRouter.get(`${API_V1.CLOSE.GET.TRANSACTIONS}`, authenticateJWT, (request: Request, response: Response) => {
-    return selectTransactionsByUserId(request, response);
+    return getTransactionsByUserId(request, response);
 });
 
 closeRouter.get(`${API_V1.CLOSE.GET.TRANSACTIONS_BALANCE}`, authenticateJWT, (request: Request, response: Response) => {
@@ -100,6 +104,10 @@ closeRouter.delete(`${API_V1.CLOSE.DELETE.TRANSACTIONS}/:id`, authenticateJWT, (
 
 closeRouter.get(`${API_V1.CLOSE.GET.TRANSACTIONS}/:id`, authenticateJWT, (request: Request, response: Response) => {
     return getTransactionById(request, response);
+});
+
+closeRouter.get(`${API_V1.CLOSE.GET.TRANSACTIONS_TYPE}/:id`, authenticateJWT, (request: Request, response: Response) => {
+    return getTransactionsByCategoryType(request, response);
 });
 
 closeRouter.post(`${API_V1.CLOSE.POST.GOALS}`, authenticateJWT, (request: Request, response: Response) => {

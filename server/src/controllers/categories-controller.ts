@@ -39,6 +39,18 @@ export const getCategoriesByCategoryType = async (request: Request, response: Re
     }
 }
 
+export const getCategories = async (request: Request, response: Response) => {
+    try {
+        const {userId} = (request as any).user;
+        const values = [userId];
+        const result = await db.query(QUERIES.SELECT_CATEGORIES, values);
+        return response.status(200).json(result.rows);
+    }
+    catch (error) {
+        return response.status(500).json({message: error.message});
+    }
+}
+
 export const getCategoryById = async (request: Request, response: Response) => {
     try {
         const {userId} = (request as any).user;

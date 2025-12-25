@@ -18,3 +18,8 @@ export type RequestAddTransaction = Omit<Transaction, 'id'>;
 export type TransactionFormErrors = {
     [key in keyof RequestAddTransaction]?: string;
 }
+
+export type DateRangeParams = {
+    dateFrom: string;
+    dateTo: string;
+}

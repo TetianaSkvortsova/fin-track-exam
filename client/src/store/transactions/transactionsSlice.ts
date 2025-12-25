@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import moment from 'moment';
 import type {
+    DateRangeParams,
     RequestAddTransaction,
     Transaction,
     TransactionsInitialState
@@ -26,7 +27,11 @@ export const getTransactionsByUser = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const {data} = await client.get(TRANSACTIONS_URL);
-            return data;
+            const transformedData = data.map(({ category_id, ...rest }) => ({
+                ...rest,
+                categoryId: category_id,
+            }));
+            return transformedData;
         } catch (error) {
             console.log(error);
             return rejectWithValue('Network error');
@@ -88,12 +93,56 @@ export const deleteTransaction = createAsyncThunk(
     }
 )
 
+export const getTransactionsByCategoryType = createAsyncThunk(
+    'transactions/getTransactionsByCategoryType',
+    async (categoryTypeId: string, {rejectWithValue}) => {
+        try {
+            const {data} = await client.get(`${TRANSACTIONS_URL}/type/${categoryTypeId}`);
+            const transformedData = data.map(({ category_type_id, category_id, ...rest }) => ({
+                ...rest,
+                categoryTypeId: category_type_id,
+                categoryId: category_id,
+            }));
+            return transformedData;
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue('Network error');
+        }
+    }
+)
+
+export const getTransactionsByDate = createAsyncThunk(
+    'transactions/getTransactionsByDate',
+    async ({dateFrom, dateTo}: DateRangeParams, {rejectWithValue}) => {
+        try {
+            const {data} = await client.get(`${TRANSACTIONS_URL}?whenFrom=${dateFrom}&whenTo=${dateTo}`);
+            const transformedData = data.map(({ category_type_id, category_id, when, ...rest }) => {
+                const correctDate = moment(when).format('YYYY-MM-DD');
+                return {
+                    ...rest,
+                    categoryTypeId: category_type_id,
+                    categoryId: category_id,
+                    when: correctDate,
+                }
+            });
+            return transformedData;
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue('Network error');
+        }
+    }
+)
+
 export const transactionsSlice = createSlice({
     name: 'transactions',
     initialState,
     reducers: {
         clearCurrentTransaction: (state) => {
             state.currentTransaction = null;
+        },
+
+        setTransactionsByCategory: (state, action) => {
+            state.transactions = state.transactions.filter((transaction) => transaction.categoryId === action.payload);
         }
     },
     extraReducers: builder => {
@@ -184,8 +233,26 @@ export const transactionsSlice = createSlice({
                 state.error = action.payload as string;
             })
 
+        builder
+            .addCase(getTransactionsByCategoryType.fulfilled, (state, action) => {
+                state.transactions = action.payload;
+            })
+
+            .addCase(getTransactionsByCategoryType.rejected, (state, action) => {
+                state.error = action.payload as string;
+            })
+
+        builder
+            .addCase(getTransactionsByDate.fulfilled, (state, action) => {
+                state.transactions = action.payload;
+            })
+
+            .addCase(getTransactionsByDate.rejected, (state, action) => {
+                state.error = action.payload as string;
+            })
+
     },
 });
 
-export const {clearCurrentTransaction} = transactionsSlice.actions;
+export const {clearCurrentTransaction, setTransactionsByCategory} = transactionsSlice.actions;
 export default transactionsSlice.reducer;
