@@ -9,6 +9,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import {useAppSelector} from "../../store/hooks.ts";
 import GoalCard from "../GoalCard/GoalCard.tsx";
+import CashFlowChart from "../CashFlowChart/CashFlowChart.tsx";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#fff',
@@ -57,7 +58,9 @@ export default function DashboardGrid() {
                 {isTransactions &&
                     <>
                         <Grid size={6}>
-                            <Item>Income and Expenses by Month</Item>
+                            <Item>
+                                <CashFlowChart />
+                            </Item>
                         </Grid>
                         <Grid size={6}>
                             <Item>

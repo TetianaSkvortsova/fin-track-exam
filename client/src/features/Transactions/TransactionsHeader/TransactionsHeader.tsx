@@ -13,7 +13,6 @@ function TransactionsHeader() {
         handleDateChange,
         categoryTypes,
         categories,
-        // filterTransactions,
         categoryType,
         category,
         startDate,
