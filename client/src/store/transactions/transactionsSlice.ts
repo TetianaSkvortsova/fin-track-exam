@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import moment from 'moment';
 import type {
-    DateRangeParams,
+    DateRangeParams, initialRequestState,
     RequestAddTransaction,
     Transaction,
     TransactionsInitialState
@@ -21,17 +21,27 @@ export const client = axios.create({
         'Authorization': `Bearer ${sessionStorage.getItem('token')}`
     }
 });
-
+/*async ({dateFrom, dateTo}: DateRangeParams, {rejectWithValue}) => {
+    try {
+        const {data} = await client.get(`${TRANSACTIONS_URL}?whenFrom=${dateFrom}&whenTo=${dateTo}`);*/
 export const getTransactionsByUser = createAsyncThunk(
     'transactions/getTransactions',
-    async (_, {rejectWithValue}) => {
+    async (requestData: initialRequestState, {rejectWithValue}) => {
+        const {categoryType, category, startDate, endDate} = requestData;
         try {
-            const {data} = await client.get(TRANSACTIONS_URL);
+            console.log(`${TRANSACTIONS_URL}?${categoryType}&${category}&${startDate}&${endDate}`);
+            const {data} = await client.get(`${TRANSACTIONS_URL}?${categoryType}&${category}&${startDate}&${endDate}`);
+            return data.map(({ category_id, category_type_id, ...rest }) => ({
+                ...rest,
+                categoryId: category_id,
+                categoryTypeId: category_type_id,
+            }));
+            /*const {data} = await client.get(TRANSACTIONS_URL);
             const transformedData = data.map(({ category_id, ...rest }) => ({
                 ...rest,
                 categoryId: category_id,
             }));
-            return transformedData;
+            return transformedData;*/
         } catch (error) {
             console.log(error);
             return rejectWithValue('Network error');
@@ -93,7 +103,7 @@ export const deleteTransaction = createAsyncThunk(
     }
 )
 
-export const getTransactionsByCategoryType = createAsyncThunk(
+/*export const getTransactionsByCategoryType = createAsyncThunk(
     'transactions/getTransactionsByCategoryType',
     async (categoryTypeId: string, {rejectWithValue}) => {
         try {
@@ -109,9 +119,9 @@ export const getTransactionsByCategoryType = createAsyncThunk(
             return rejectWithValue('Network error');
         }
     }
-)
+)*/
 
-export const getTransactionsByDate = createAsyncThunk(
+/*export const getTransactionsByDate = createAsyncThunk(
     'transactions/getTransactionsByDate',
     async ({dateFrom, dateTo}: DateRangeParams, {rejectWithValue}) => {
         try {
@@ -131,7 +141,7 @@ export const getTransactionsByDate = createAsyncThunk(
             return rejectWithValue('Network error');
         }
     }
-)
+)*/
 
 export const transactionsSlice = createSlice({
     name: 'transactions',
@@ -141,20 +151,19 @@ export const transactionsSlice = createSlice({
             state.currentTransaction = null;
         },
 
-        setTransactionsByCategory: (state, action) => {
+        /*setTransactionsByCategory: (state, action) => {
             state.transactions = state.transactions.filter((transaction) => transaction.categoryId === action.payload);
-        }
+        }*/
     },
     extraReducers: builder => {
         builder
             .addCase(getTransactionsByUser.fulfilled, (state, action) => {
                 state.transactions = action.payload.map((transaction: Transaction) => {
-                    const {category_type_id: categoryTypeId, when, ...rest} = transaction;
+                    const {when, ...rest} = transaction;
                     const correctDate = moment(when).format('YYYY-MM-DD');
 
                     return {
                         ...rest,
-                        categoryTypeId,
                         when: correctDate
                     };
                 })
@@ -233,23 +242,23 @@ export const transactionsSlice = createSlice({
                 state.error = action.payload as string;
             })
 
-        builder
+       /* builder
             .addCase(getTransactionsByCategoryType.fulfilled, (state, action) => {
                 state.transactions = action.payload;
             })
 
             .addCase(getTransactionsByCategoryType.rejected, (state, action) => {
                 state.error = action.payload as string;
-            })
+            })*/
 
-        builder
+       /* builder
             .addCase(getTransactionsByDate.fulfilled, (state, action) => {
                 state.transactions = action.payload;
             })
 
             .addCase(getTransactionsByDate.rejected, (state, action) => {
                 state.error = action.payload as string;
-            })
+            })*/
 
     },
 });

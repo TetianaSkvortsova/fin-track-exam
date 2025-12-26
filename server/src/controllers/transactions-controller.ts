@@ -6,16 +6,24 @@ import {Response, Request} from "express";
 export const getTransactionsByUserId = async (request: Request, response: Response) => {
     try {
         const {userId} = (request as any).user;
-        const {whenFrom, whenTo} = request.query;
+        const {whenFrom, whenTo, categoryTypeId, categoryId} = request.query;
         const values = [userId];
         let query: string = QUERIES.SELECT_TRANSACTIONS_BY_USER_ID;
         if (!!whenFrom) {
-            query = `${query}${QUERIES.FILTER_TRANSACTIONS_BY_WHEN_FROM}`;
             values.push(whenFrom);
+            query = `${query}${QUERIES.FILTER_TRANSACTIONS_BY_WHEN_FROM.replace('{PARAM}', `$${values.length}`)}`;
         }
         if (!!whenTo) {
-            query = `${query}${QUERIES.FILTER_TRANSACTIONS_BY_WHEN_TO}`;
             values.push(whenTo);
+            query = `${query}${QUERIES.FILTER_TRANSACTIONS_BY_WHEN_TO.replace('{PARAM}', `$${values.length}`)}`;
+        }
+        if (categoryTypeId) {
+            values.push(categoryTypeId);
+            query = `${query}${QUERIES.FILTER_TRANSACTIONS_BY_CATEGORY_TYPE_ID.replace('{PARAM}', `$${values.length}`)}`;
+        }
+        if (categoryId) {
+            values.push(categoryId);
+            query = `${query}${QUERIES.FILTER_TRANSACTIONS_BY_CATEGORY_ID.replace('{PARAM}', `$${values.length}`)}`;
         }
         const result = await db.query(query, values);
         return response.status(200).json(result.rows);

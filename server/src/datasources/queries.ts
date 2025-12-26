@@ -66,8 +66,10 @@ export const QUERIES = Object.freeze({
                                      where
                                          c.user_id = $1
                                 `,
-    FILTER_TRANSACTIONS_BY_WHEN_TO: ` and DATE(t."when") <= DATE($3)`,
-    FILTER_TRANSACTIONS_BY_WHEN_FROM: ` and DATE(t."when") >= DATE($2)`,
+    FILTER_TRANSACTIONS_BY_WHEN_FROM: ` and DATE(t."when") >= DATE({PARAM})`,
+    FILTER_TRANSACTIONS_BY_WHEN_TO: ` and DATE(t."when") <= DATE({PARAM})`,
+    FILTER_TRANSACTIONS_BY_CATEGORY_TYPE_ID: ` and c.category_type_id = {PARAM}`,
+    FILTER_TRANSACTIONS_BY_CATEGORY_ID: ` and t.category_id = {PARAM}`,
     SELECT_CATEGORY_BY_CATEGORY_TYPE: `select c.id, 
                                               c.name, 
                                               sum(COALESCE(t.amount, 0)) as amount

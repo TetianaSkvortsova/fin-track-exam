@@ -4,7 +4,7 @@ import {DataGrid, type GridColDef} from "@mui/x-data-grid";
 import {Box, IconButton, Stack, Tooltip} from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
+import {EXPENSE_CATEGORY_ID, GOAL_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 import {Delete, Edit} from "@mui/icons-material";
 import './TransactionsDataGrid.scss';
 import {useAppDispatch} from "../../store/hooks.ts";
@@ -30,7 +30,7 @@ const prepareRows = (transactions: Transaction[]) => {
                 amount: transactions
                     .filter(transaction => (transaction.when.includes('T') ? transaction.when.split('T')[0] : transaction.when) === currentDate)
                     .reduce((sum, transaction) => {
-                        if (transaction.categoryTypeId === EXPENSE_CATEGORY_ID) {
+                        if (transaction.categoryTypeId !== INCOME_CATEGORY_ID) {
                             return sum + (Number(transaction.amount)*(-1));
                         } else {
                             return sum + Number(transaction.amount);

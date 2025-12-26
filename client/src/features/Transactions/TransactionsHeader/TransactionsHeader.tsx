@@ -2,8 +2,8 @@ import {Autocomplete, type AutocompleteRenderInputParams, Box, TextField} from "
 import useTransactionHeaderLogic from "./useTransactionHeaderLogic";
 import {TEXT} from "../../../constants/textConstants";
 import type {CategoryTypes} from "../../../types";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 function TransactionsHeader() {
@@ -13,6 +13,7 @@ function TransactionsHeader() {
         handleDateChange,
         categoryTypes,
         categories,
+        // filterTransactions,
         categoryType,
         category,
         startDate,
@@ -30,6 +31,7 @@ function TransactionsHeader() {
                 value={categoryType}
                 options={categoryTypes}
                 getOptionLabel={(categoryType: CategoryTypes) => categoryType.caption}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
                 size="small"
                 sx={{width: 220}}
                 renderInput={(params: AutocompleteRenderInputParams) =>
@@ -92,8 +94,7 @@ function TransactionsHeader() {
             </LocalizationProvider>
 
         </Box>
-    )
-        ;
+    );
 }
 
 export default TransactionsHeader;

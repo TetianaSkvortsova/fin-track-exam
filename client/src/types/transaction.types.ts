@@ -23,3 +23,10 @@ export type DateRangeParams = {
     dateFrom: string;
     dateTo: string;
 }
+
+export type initialRequestState = {
+    categoryType: string | null,
+    category: string | null,
+    startDate: string | null,
+    endDate: string | null,
+}

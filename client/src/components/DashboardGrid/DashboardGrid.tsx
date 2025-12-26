@@ -8,6 +8,7 @@ import SavingsIcon from "@mui/icons-material/Savings";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import {useAppSelector} from "../../store/hooks.ts";
+import GoalCard from "../GoalCard/GoalCard.tsx";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#fff',
@@ -30,7 +31,9 @@ const ICONS_MAP: Record<IconType, JSX.Element> = {
 
 export default function DashboardGrid() {
     const balance = useAppSelector(state => state.balance);
+    const goals = useAppSelector(state => state.goals.goals);
     const isTransactions = useAppSelector(state => state.transactions.transactions.length > 0);
+    const isGoals = useAppSelector(state => state.goals.goals.length > 0);
     const cards: { type: IconType; title: string, balance: string }[] = [
         {type: 'balance', title: 'Balance', balance: balance.amount},
         {type: 'income', title: 'Income', balance: balance.income},
@@ -63,16 +66,22 @@ export default function DashboardGrid() {
                         </Grid>
                     </>
                 }
+                {isGoals &&
+                    goals.map((goal) => (
+                        <Grid size={4} key={goal.id}>
+                            <Item>
+                                <GoalCard goal={goal}/>
+                            </Item>
+                        </Grid>
+                    ))
+                }
 
-                <Grid size={4}>
+                {/*<Grid size={4}>
                     <Item>Financial Goals</Item>
                 </Grid>
                 <Grid size={4}>
                     <Item>Financial Goals</Item>
-                </Grid>
-                <Grid size={4}>
-                    <Item>Financial Goals</Item>
-                </Grid>
+                </Grid>*/}
 
             </Grid>
         </Box>
