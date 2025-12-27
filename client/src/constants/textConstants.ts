@@ -26,6 +26,23 @@ export const TEXT = {
         CATEGORY_INCOME_CHART_TITLE: "income per category",
     } as const,
 
+    MENU: {
+        DASHBOARD: "dashboard",
+        TRANSACTIONS: "transactions",
+        CATEGORIES: "categories",
+        GOALS: "goals",
+    } as const,
+
+    ROUTES: {
+        HOME: "/",
+        LOGIN: "/login",
+        REGISTER: "/register",
+        DASHBOARD: "/dashboard",
+        TRANSACTIONS: "/transactions",
+        CATEGORIES: "/categories",
+        GOALS: "/goals",
+    } as const,
+
     FORMS: {
         SIGN_UP: "sign up",
         NAME: "name",

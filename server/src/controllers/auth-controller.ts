@@ -2,8 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import * as db from '../db';
-import {dbClient} from "../db";
-import {QUERIES} from "../datasources/queries";
+import { QUERIES } from "../datasources/queries";
 
 const generateToken = (user: { id: number, email: string }) => {
     return jwt.sign(
@@ -15,10 +14,10 @@ const generateToken = (user: { id: number, email: string }) => {
 
 
 export const register = async (req: Request, res: Response) => {
-    const {email, password, name, lastname} = req.body;
+    const { email, password, name, lastname } = req.body;
 
     if (!email || !password) {
-        return res.status(400).json({error: 'Email and password are required'});
+        return res.status(400).json({ error: 'Email and password are required' });
     }
 
     try {
@@ -27,7 +26,7 @@ export const register = async (req: Request, res: Response) => {
 
         const values = [email, passwordHash, name, lastname];
 
-        const result = await dbClient.query(QUERIES.INSERT_NEW_USER, values);
+        const result = await db.query(QUERIES.INSERT_NEW_USER, values);
         const newUser = result.rows[0];
 
         const token = jwt.sign(
@@ -43,18 +42,18 @@ export const register = async (req: Request, res: Response) => {
 
         return res.status(201).json({
             message: 'User registered successfully',
-            user: {id: newUser.id, email: newUser.email},
+            user: { id: newUser.id, email: newUser.email },
             token
         });
 
     } catch (error: any) {
         // Handle Unique Violation (Postgres Error Code 23505)
         if (error.code === '23505') {
-            return res.status(409).json({error: 'Email already in use'});
+            return res.status(409).json({ error: 'Email already in use' });
         }
 
         console.error('Registration error:', error);
-        return res.status(500).json({error: 'Internal server error'});
+        return res.status(500).json({ error: 'Internal server error' });
     }
 };
 
