@@ -1,44 +1,43 @@
-import {useState} from "react";
+import {useMemo} from "react";
 import * as React from "react";
 import type {CategoryType, CategoryTypes} from "../types";
 import {useAppDispatch, useAppSelector} from "../store/hooks.ts";
 import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../constants/categoryTypes.ts";
 import {setCurrentType} from "../store/category/categorySlice.ts";
 
-function isDefined<T>(argument: T | undefined | null): argument is T {
-    return argument !== undefined && argument !== null;
-}
-
 export type UseCategoriesType = {
     categories: CategoryTypes[];
-    currentCategory: CategoryTypes;
+    currentCategoryType: CategoryTypes;
     handleChange: (event: React.MouseEvent<HTMLElement>, newCategoryType: CategoryType) => void;
 }
 
 export const useCategoryTypeToggleButtonsLogic = (): UseCategoriesType => {
     const dispatch = useAppDispatch();
-    const categoryTypes = useAppSelector(state => state.categories.types);
-    const expenseCategory = categoryTypes.find((item) => item.id === EXPENSE_CATEGORY_ID);
-    const incomeCategory = categoryTypes.find((item) => item.id === INCOME_CATEGORY_ID);
-    const categories = [expenseCategory, incomeCategory].filter(isDefined);
-    const initialCategory = expenseCategory || categories[0];
+    const {types: categoryTypes, currentType: currentTypeId} = useAppSelector(state => state.categories);
 
-    const [currentCategory, setCurrentCategory] = useState<CategoryTypes>(initialCategory as CategoryTypes);
+    const categories = useMemo(() => {
+        return categoryTypes.filter(item =>
+            item.id === EXPENSE_CATEGORY_ID || item.id === INCOME_CATEGORY_ID
+        );
+    }, [categoryTypes]);
+
+    const currentCategoryType = useMemo(() => {
+        return categoryTypes.find(item => item.id === currentTypeId)
+            || categoryTypes.find(item => item.id === EXPENSE_CATEGORY_ID)
+            || categories[0];
+    }, [categoryTypes, currentTypeId, categories]);
 
     const handleChange = (
         _event: React.MouseEvent<HTMLElement>,
-        newCategoryType: CategoryType,
+        newCategoryId: CategoryType,
     ) => {
-        const category = categoryTypes.find((item) => item.id === newCategoryType);
-        if (category) {
-            setCurrentCategory(category);
-            dispatch(setCurrentType(category.id));
+        if (newCategoryId && newCategoryId !== currentTypeId) {
+            dispatch(setCurrentType(newCategoryId));
         }
     };
-
     return {
         categories,
-        currentCategory,
+        currentCategoryType,
         handleChange,
     }
 }

@@ -78,14 +78,6 @@ export default function DashboardGrid() {
                         </Grid>
                     ))
                 }
-
-                {/*<Grid size={4}>
-                    <Item>Financial Goals</Item>
-                </Grid>
-                <Grid size={4}>
-                    <Item>Financial Goals</Item>
-                </Grid>*/}
-
             </Grid>
         </Box>
     )

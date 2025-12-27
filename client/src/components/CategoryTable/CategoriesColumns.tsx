@@ -7,7 +7,7 @@ export const createColumns = (onEdit: (id: string) => void, dispatch: any) => [
     {
         field: 'name',
         headerName: 'Name',
-        width: 560,
+        width: 540,
         sortable: true,
         renderCell: (params: any) => (
             <Box sx={{display: 'flex', alignItems: 'center', gap: 1.5}}>

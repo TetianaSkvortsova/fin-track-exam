@@ -8,6 +8,7 @@ import {
     createTransaction,
     updateTransaction
 } from "../../store/transactions/transactionsSlice.ts";
+import {getBalanceByCategoryType, getBalanceByUser} from "../../store/balance/balanceSlice.ts";
 
 type TransactionFormProps = {
     onCloseModal: () => void;
@@ -64,15 +65,11 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
         setErrors({});
         const isEditing = !!currentTransaction;
 
-        if (isEditing) {
-            console.log('edit: ', formState);
-            dispatch(updateTransaction(formState));
-            onCloseModal();
-        } else {
-            dispatch(createTransaction(formState));
-            console.log('create: ', formState);
-            onCloseModal();
-        }
+        const action = isEditing ? updateTransaction : createTransaction;
+
+        await dispatch(action(formState)).unwrap();
+        dispatch(getBalanceByUser());
+        onCloseModal();
     }
 
     const handleCancel = () => {

@@ -5,6 +5,7 @@ import type {RootState} from "../store/store.ts";
 import {getBalanceByUser} from "../store/balance/balanceSlice.ts";
 import {logout} from "../store/user/userSlice.ts";
 import type {Balance} from "../types";
+import {useNavigate} from "react-router";
 
 export type UseHeaderLogic = {
     auth: boolean;
@@ -19,6 +20,7 @@ export type UseHeaderLogic = {
 }
 
 export const useHeaderLogic = (): UseHeaderLogic => {
+    const navigate = useNavigate();
     const auth = useAppSelector((state: RootState) => state.user.isAuthenticated);
     const balance = useAppSelector((state: RootState) => state.balance);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -53,6 +55,7 @@ export const useHeaderLogic = (): UseHeaderLogic => {
 
     const handleAddTransaction = () => {
         dispatch(openModal({ type: 'ADD_TRANSACTION' }));
+        navigate('/transactions');
     }
 
     return {

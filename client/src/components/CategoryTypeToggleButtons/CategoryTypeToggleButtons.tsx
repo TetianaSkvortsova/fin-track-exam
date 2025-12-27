@@ -4,7 +4,7 @@ import {useCategoryTypeToggleButtonsLogic} from "../../hooks/useCategoryTypeTogg
 
 function CategoryTypeToggleButtons() {
     const {
-        currentCategory,
+        currentCategoryType,
         categories,
         handleChange,
     } = useCategoryTypeToggleButtonsLogic();
@@ -13,7 +13,7 @@ function CategoryTypeToggleButtons() {
         <div className="category-header">
             <StyledToggleButtonGroup
                 color="standard"
-                value={currentCategory?.id || categories[0]?.id}
+                value={currentCategoryType?.id || categories[0]?.id}
                 exclusive
                 onChange={handleChange}
                 aria-label="Categories Type"
