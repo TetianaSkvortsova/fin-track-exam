@@ -1,6 +1,6 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import type {RegisterData, ResponseData, UserState} from "../../types";
+import type { RegisterData, ResponseData, UserState } from "../../types";
 
 const initialState: UserState = {
     isAuthenticated: false,
@@ -14,7 +14,7 @@ export const client = axios.create();
 
 export const registerNewUser = createAsyncThunk<ResponseData, RegisterData, { rejectValue: string }>(
     'user/registerNewUser',
-    async (user, {rejectWithValue}) => {
+    async (user, { rejectWithValue }) => {
         try {
             const result = await client.post(REGISTER_URL, user);
             const newToken = result.data.token;
@@ -23,7 +23,7 @@ export const registerNewUser = createAsyncThunk<ResponseData, RegisterData, { re
             return result.data;
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                const errorMessage = error.response.data.message || 'Email already exists';
+                const errorMessage = error.response.data.error || error.response.data.message || 'Email already exists';
                 return rejectWithValue(errorMessage);
             }
             return rejectWithValue('Network error');
@@ -37,7 +37,7 @@ export const userSlice = createSlice({
         // Stub: login
         loginSuccessMock: (state) => {
             state.isAuthenticated = true;
-            state.user = {id: 'u1', email: 'test@example.com'};
+            state.user = { id: 'u1', email: 'test@example.com' };
         },
         // Stub: logout
         logout: (state) => {
@@ -54,7 +54,7 @@ export const userSlice = createSlice({
             const isAuth = sessionStorage.getItem('token');
             if (!isAuth) return;
             state.isAuthenticated = true;
-            state.user = {id: 'u1', email: 'test@example.com'};
+            state.user = { id: 'u1', email: 'test@example.com' };
         }
     },
     extraReducers: builder => {
@@ -73,6 +73,6 @@ export const userSlice = createSlice({
 
 
 
-export const {loginSuccessMock, logout, clearRegistrationError, setAuthToken} = userSlice.actions;
+export const { loginSuccessMock, logout, clearRegistrationError, setAuthToken } = userSlice.actions;
 
 export default userSlice.reducer;
