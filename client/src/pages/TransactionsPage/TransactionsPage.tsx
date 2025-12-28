@@ -9,10 +9,15 @@ import TransactionsHeader from "../../features/Transactions/TransactionsHeader/T
 function TransactionsPage() {
     const dispatch = useAppDispatch();
     const transactions = useAppSelector(state => state.transactions.transactions);
+    const requestData = {
+        categoryType: '',
+        category: '',
+        startDate: '',
+        endDate: '',
+    }
 
     useEffect(() => {
-        dispatch(getTransactionsByUser());
-        // dispatch(getTransactionsByUser());
+        dispatch(getTransactionsByUser(requestData));
     }, [dispatch]);
 
     return (

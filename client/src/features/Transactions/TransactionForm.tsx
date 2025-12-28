@@ -91,7 +91,9 @@ const TransactionForm: React.FC<TransactionFormProps> = ({onCloseModal}) => {
                     required
                     helperText={!selectedCategoryType ? "Please select type first" : ""}
                 >
-                    {categories.map((option) => (
+                    {categories
+                        // .filter((option) => !option.completed)
+                        .map((option) => (
                         <MenuItem key={option.id} value={option.id}>
                             {option.name}
                         </MenuItem>

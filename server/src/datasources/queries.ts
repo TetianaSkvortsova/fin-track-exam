@@ -75,12 +75,13 @@ export const QUERIES = Object.freeze({
                                               sum(COALESCE(t.amount, 0)) as amount
                                        from categories c
                                                 left outer join transactions t on c.id = t.category_id
-                                       where c.user_id = $1 and c.category_type_id = $2
+                                       where c.user_id = $1 and c.category_type_id = $2 and c.completed = false
                                        group by c.id, c.name
     `,
     SELECT_CATEGORIES: `SELECT
                             c.id,
-                            c.name
+                            c.name,
+                            c.completed
                         FROM categories c
                         WHERE c.user_id = $1 and c.completed = false
     `,

@@ -8,7 +8,7 @@ import {
     createTransaction,
     updateTransaction
 } from "../../store/transactions/transactionsSlice.ts";
-import {getBalanceByCategoryType, getBalanceByUser} from "../../store/balance/balanceSlice.ts";
+import {getBalanceByUser} from "../../store/balance/balanceSlice.ts";
 
 type TransactionFormProps = {
     onCloseModal: () => void;
@@ -28,14 +28,11 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
         categoryId: '',
         when: '',
         description: '',
+        cumulative: false,
     });
 
     useEffect(() => {
-        dispatch(getCategoriesByType(selectedCategoryType));
-    }, [dispatch, selectedCategoryType]);
-
-    useEffect(() => {
-        if(currentTransaction){
+        if (currentTransaction) {
             setFormState(prev => ({
                 ...prev,
                 id: currentTransaction.id,
@@ -80,7 +77,7 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         const normalizedValue = name === 'amount' ? value.replace(',', '.') : value;
-        if(name === 'amount') {
+        if (name === 'amount') {
             setFormState({
                 ...formState,
                 [name]: normalizedValue,
@@ -101,6 +98,7 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
             categoryId: ''
         });
         setType(selectedType);
+        dispatch(getCategoriesByType(selectedType));
     }
 
     const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
