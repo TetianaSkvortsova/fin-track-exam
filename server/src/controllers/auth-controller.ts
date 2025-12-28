@@ -80,6 +80,7 @@ export const login = async (req: Request, res: Response) => {
         }
 
         const token = generateToken(user);
+        console.log(token);
 
         return res.json({
             message: 'Login successful',

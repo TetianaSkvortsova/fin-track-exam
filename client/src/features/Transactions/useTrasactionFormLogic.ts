@@ -9,6 +9,7 @@ import {
     updateTransaction
 } from "../../store/transactions/transactionsSlice.ts";
 import {getBalanceByUser} from "../../store/balance/balanceSlice.ts";
+// import {GOAL_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 
 type TransactionFormProps = {
     onCloseModal: () => void;
@@ -30,19 +31,6 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
         cumulative: false,
     });
 
-    /*if (currentTransaction) {
-        setFormState(prev => ({
-            ...prev,
-            id: currentTransaction.id,
-            categoryTypeId: currentTransaction.categoryTypeId ?? '',
-            categoryId: currentTransaction.categoryId ?? '',
-            when: currentTransaction.when ?? '',
-            description: currentTransaction.description ?? '',
-            amount: currentTransaction.amount ?? '',
-        }));
-        setType(currentTransaction.categoryTypeId ?? '');
-    }*/
-
     useEffect(() => {
         if (currentTransaction) {
             setFormState(prev => ({
@@ -55,24 +43,13 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
                 amount: currentTransaction.amount ?? '',
             }));
             setType(currentTransaction.categoryTypeId ?? '');
-        } else {
-            setFormState(prev => ({
-                ...prev,
-                id: '',
-                categoryTypeId: '',
-                categoryId: '',
-                when: '',
-                description: '',
-                amount: '',
-            }));
         }
-
     }, [dispatch, currentTransaction]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const isEditing = !!currentTransaction;
 
+        const isEditing = !!currentTransaction;
         const action = isEditing ? updateTransaction : createTransaction;
 
         await dispatch(action(formState)).unwrap();

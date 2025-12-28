@@ -181,9 +181,10 @@ export const transactionsSlice = createSlice({
 
         builder
             .addCase(deleteTransaction.fulfilled, (state, action) => {
-                console.log(action.payload);
+                const deletedId = action.meta.arg;
                 state.transactions = state.transactions.filter((transaction) =>
-                    transaction.id !== action.payload.id);
+                    transaction.id !== deletedId
+                );
             })
 
             .addCase(deleteTransaction.rejected, (state, action) => {
