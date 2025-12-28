@@ -60,6 +60,7 @@ export const QUERIES = Object.freeze({
                                          c.name,
                                          t."when",
                                          t.description,
+                                         t.cumulative,
                                          t.amount
                                      from categories c
                                               inner join transactions t on t.category_id = c.id
@@ -71,19 +72,20 @@ export const QUERIES = Object.freeze({
     FILTER_TRANSACTIONS_BY_CATEGORY_TYPE_ID: ` and c.category_type_id = {PARAM}`,
     FILTER_TRANSACTIONS_BY_CATEGORY_ID: ` and t.category_id = {PARAM}`,
     SELECT_CATEGORY_BY_CATEGORY_TYPE: `select c.id, 
-                                              c.name, 
+                                              c.name,
+                                              c.completed,
                                               sum(COALESCE(t.amount, 0)) as amount
                                        from categories c
                                                 left outer join transactions t on c.id = t.category_id
-                                       where c.user_id = $1 and c.category_type_id = $2 and c.completed = false
-                                       group by c.id, c.name
+                                       where c.user_id = $1 and c.category_type_id = $2 {AND_COMPLETED}
+                                       group by c.id, c.name {GROUP_BY_COMPLETED}
     `,
     SELECT_CATEGORIES: `SELECT
                             c.id,
                             c.name,
                             c.completed
                         FROM categories c
-                        WHERE c.user_id = $1 and c.completed = false
+                        WHERE c.user_id = $1 {AND_COMPLETED}
     `,
     SELECT_CATEGORY_BY_CATEGORY_TYPE_WITH_BALANCE: `select  
                                               sum(COALESCE(t.amount, 0)) as amount
@@ -121,6 +123,10 @@ export const QUERIES = Object.freeze({
     DELETE_TRANSACTION: `DELETE from transactions
                          where id = $1 and user_id = $2
                          RETURNING *`,
+    DELETE_CUMULATIVE_TRANSACTION_BY_CATEGORY_ID: `DELETE from transactions
+                         where category_id = $2 and user_id = $1 and cumulative = true
+                         RETURNING *`,
+    UPDATE_CATEGORY_COMPLETED_TO_FALSE: `update categories set completed = false where id = $1 and user_id = $2`,
     SELECT_TRANSACTION_BY_ID: `
                         SELECT
                             t.id,
@@ -128,10 +134,11 @@ export const QUERIES = Object.freeze({
                             t."when",
                             t.amount,
                             t.description,
+                            t.cumulative,
                             c.category_type_id
                         FROM transactions t
                                  JOIN categories c ON t.category_id = c.id
-                        WHERE t.id = $1 AND t.user_id = $2)
+                        WHERE t.id = $1 AND t.user_id = $2
                         `,
     SELECT_TRANSACTIONS_BY_CATEGORY_TYPE: `
                         SELECT
@@ -141,6 +148,7 @@ export const QUERIES = Object.freeze({
                             t.when,
                             c.name AS name,
                             c.category_type_id,
+                            t.cumulative,
                             t.category_id
                         FROM transactions t
                                  JOIN categories c ON t.category_id = c.id

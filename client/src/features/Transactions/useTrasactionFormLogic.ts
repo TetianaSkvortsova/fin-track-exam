@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import type {Transaction, TransactionFormErrors} from "../../types";
+import type {Transaction} from "../../types";
 import * as React from "react";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {getCategoriesByType} from "../../store/category/categorySlice.ts";
@@ -16,7 +16,6 @@ type TransactionFormProps = {
 
 export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) => {
     const dispatch = useAppDispatch();
-    const [errors, setErrors] = useState<TransactionFormErrors>({});
     const categoryTypes = useAppSelector(state => state.categories.types);
     const categories = useAppSelector(state => state.categories.categories);
     const currentTransaction = useAppSelector(state => state.transactions.currentTransaction);
@@ -30,6 +29,19 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
         description: '',
         cumulative: false,
     });
+
+    /*if (currentTransaction) {
+        setFormState(prev => ({
+            ...prev,
+            id: currentTransaction.id,
+            categoryTypeId: currentTransaction.categoryTypeId ?? '',
+            categoryId: currentTransaction.categoryId ?? '',
+            when: currentTransaction.when ?? '',
+            description: currentTransaction.description ?? '',
+            amount: currentTransaction.amount ?? '',
+        }));
+        setType(currentTransaction.categoryTypeId ?? '');
+    }*/
 
     useEffect(() => {
         if (currentTransaction) {
@@ -59,14 +71,13 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        setErrors({});
         const isEditing = !!currentTransaction;
 
         const action = isEditing ? updateTransaction : createTransaction;
 
         await dispatch(action(formState)).unwrap();
         dispatch(getBalanceByUser());
-        onCloseModal();
+        handleCancel();
     }
 
     const handleCancel = () => {

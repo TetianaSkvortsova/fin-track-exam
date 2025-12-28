@@ -181,6 +181,7 @@ export const transactionsSlice = createSlice({
 
         builder
             .addCase(deleteTransaction.fulfilled, (state, action) => {
+                console.log(action.payload);
                 state.transactions = state.transactions.filter((transaction) =>
                     transaction.id !== action.payload.id);
             })

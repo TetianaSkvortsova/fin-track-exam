@@ -18,7 +18,7 @@ function TransactionsPage() {
 
     useEffect(() => {
         dispatch(getTransactionsByUser(requestData));
-    }, [dispatch]);
+    }, [dispatch, transactions]);
 
     return (
         <div className={'page-wrapper'}>

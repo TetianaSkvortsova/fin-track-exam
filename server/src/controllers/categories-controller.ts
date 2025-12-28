@@ -28,9 +28,20 @@ export const appendSimpleCategory = async (request: Request, response: Response)
 export const getCategoriesByCategoryType = async (request: Request, response: Response) => {
     try {
         const {userId} = (request as any).user;
-        const {categoryTypeId, balance} = request.query;
+        const {categoryTypeId, balance, completed} = request.query;
         const values = [userId, categoryTypeId];
-        const dbQuery = !!balance ? QUERIES.SELECT_CATEGORY_BY_CATEGORY_TYPE_WITH_BALANCE : QUERIES.SELECT_CATEGORY_BY_CATEGORY_TYPE;
+        let categoryByTypeQuery = '';
+        if (!balance && !!completed) {
+            categoryByTypeQuery = QUERIES.SELECT_CATEGORY_BY_CATEGORY_TYPE
+                .replace('{AND_COMPLETED}', 'and c.completed = $3')
+                .replace('{GROUP_BY_COMPLETED}', ', c.completed');
+            values.push(!!completed);
+        } else if (!balance) {
+            categoryByTypeQuery = QUERIES.SELECT_CATEGORY_BY_CATEGORY_TYPE
+                .replace('{AND_COMPLETED}', '')
+                .replace('{GROUP_BY_COMPLETED}', '');
+        }
+        const dbQuery = !!balance ? QUERIES.SELECT_CATEGORY_BY_CATEGORY_TYPE_WITH_BALANCE : categoryByTypeQuery;
         const result = await db.query(dbQuery, values);
         return response.status(200).json(!!balance ? result.rows[0] : result.rows);
     }
@@ -42,8 +53,18 @@ export const getCategoriesByCategoryType = async (request: Request, response: Re
 export const getCategories = async (request: Request, response: Response) => {
     try {
         const {userId} = (request as any).user;
+        const {completed} = request.query;
         const values = [userId];
-        const result = await db.query(QUERIES.SELECT_CATEGORIES, values);
+        let categoryByTypeQuery = '';
+        if (!!completed) {
+            categoryByTypeQuery = QUERIES.SELECT_CATEGORIES
+                .replace('{AND_COMPLETED}', 'and c.completed = $3');
+            values.push(!!completed);
+        } else {
+            categoryByTypeQuery = QUERIES.SELECT_CATEGORIES
+                .replace('{AND_COMPLETED}', '');
+        }
+        const result = await db.query(categoryByTypeQuery, values);
         return response.status(200).json(result.rows);
     }
     catch (error) {

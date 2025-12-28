@@ -19,12 +19,18 @@ function App() {
     const dispatch = useAppDispatch();
     const isAuth = useAppSelector(state => state.user.isAuthenticated);
     const {open, title, description, confirmText, idToDelete, actionType} = useAppSelector(state => state.dialog);
+    const requestData = {
+        categoryType: '',
+        category: '',
+        startDate: '',
+        endDate: '',
+    }
 
     useEffect(() => {
         dispatch(setAuthToken());
         if (isAuth) {
             dispatch(getCategoryTypes());
-            dispatch(getTransactionsByUser());
+            dispatch(getTransactionsByUser(requestData));
             dispatch(getGoals());
         }
     }, [dispatch, isAuth]);

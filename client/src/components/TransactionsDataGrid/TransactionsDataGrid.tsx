@@ -31,7 +31,7 @@ const prepareRows = (transactions: Transaction[]) => {
                     .filter(transaction => (transaction.when.includes('T') ? transaction.when.split('T')[0] : transaction.when) === currentDate)
                     .reduce((sum, transaction) => {
                         if (transaction.categoryTypeId === EXPENSE_CATEGORY_ID || transaction.categoryTypeId === GOAL_CATEGORY_ID) {
-                            return sum + (Number(transaction.amount)*(-1));
+                            return sum + (Number(transaction.amount) * (-1));
                         } else {
                             return sum + Number(transaction.amount);
                         }
@@ -157,16 +157,18 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
                 if (params.row.isHeader) return null;
 
                 return (
-                    <Stack direction="row" spacing={1} sx={{alignItems: 'center', height: '100%'}}>
-                        <Tooltip title="Edit">
-                            <IconButton
-                                size="small"
-                                className="action-button edit-btn"
-                                onClick={() => handleEditTransaction(params.row.id)}
-                            >
-                                <Edit fontSize="small"/>
-                            </IconButton>
-                        </Tooltip>
+                    <Stack direction="row" spacing={1} sx={{alignItems: 'center', height: '100%', marginLeft: 'auto'}}>
+                        {!params.row.cumulative && (
+                            <Tooltip title="Edit">
+                                <IconButton
+                                    size="small"
+                                    className="action-button edit-btn"
+                                    onClick={() => handleEditTransaction(params.row.id)}
+                                >
+                                    <Edit fontSize="small"/>
+                                </IconButton>
+                            </Tooltip>
+                        )}
 
                         <Tooltip title="Delete">
                             <IconButton
@@ -178,6 +180,7 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
                                     title: "Delete transaction?",
                                     description: `Are you sure you want to delete this transaction?`
                                 }))}
+
                             >
                                 <Delete fontSize="small"/>
                             </IconButton>

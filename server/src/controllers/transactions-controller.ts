@@ -26,7 +26,22 @@ export const getTransactionsByUserId = async (request: Request, response: Respon
             query = `${query}${QUERIES.FILTER_TRANSACTIONS_BY_CATEGORY_ID.replace('{PARAM}', `$${values.length}`)}`;
         }
         const result = await db.query(query, values);
-        return response.status(200).json(result.rows);
+
+        const cumulative = result
+            .rows
+            .reduce((acc, curr) => {
+                if (curr.cumulative) {
+                    acc[curr.category_id] = true
+                }
+                return acc;
+            }, {});
+
+        const rows = result.rows.map((item) => {
+            item.fullfilled = !!cumulative[item.category_id];
+            return item;
+        });
+
+        return response.status(200).json(rows);
     }
     catch (error) {
         return response.status(500).json({message: error.message});
@@ -78,7 +93,17 @@ export const deleteTransactionById = async (request: Request, response: Response
         const id = request.params.id;
         const values = [id, userId];
         const result = await db.query(QUERIES.DELETE_TRANSACTION, values);
-        return response.status(200).json(result.rows.length > 0 ? result.rows[0] : {});
+        const rows = [
+            ...result.rows
+        ]
+        if (rows.length > 0) {
+            const {category_id} = result.rows[0];
+            const cumulative = await db.query(QUERIES.DELETE_CUMULATIVE_TRANSACTION_BY_CATEGORY_ID, [userId, category_id]);
+            rows.push(...cumulative.rows);
+
+            await db.query(QUERIES.UPDATE_CATEGORY_COMPLETED_TO_FALSE, [category_id, userId]);
+        }
+        return response.status(200).json(rows);
     }
     catch (error) {
         return response.status(500).json({message: error.message});
