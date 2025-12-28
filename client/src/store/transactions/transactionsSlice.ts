@@ -28,7 +28,7 @@ export const getTransactionsByUser = createAsyncThunk(
         const {categoryType, category, startDate, endDate} = requestData;
         try {
             const {data} = await client.get(`${TRANSACTIONS_URL}?${categoryType}&${category}&${startDate}&${endDate}`);
-            return data.map(({ category_id, category_type_id, ...rest }) => ({
+            return data.map(({category_id, category_type_id, ...rest}) => ({
                 ...rest,
                 categoryId: category_id,
                 categoryTypeId: category_type_id,
@@ -181,9 +181,9 @@ export const transactionsSlice = createSlice({
 
         builder
             .addCase(deleteTransaction.fulfilled, (state, action) => {
-                const deletedId = action.meta.arg;
-                state.transactions = state.transactions.filter((transaction) =>
-                    transaction.id !== deletedId
+                state.transactions = state.transactions.filter((transaction) => {
+                        return !action.payload.some((item: { id: string }) => transaction.id === item.id);
+                    }
                 );
             })
 
