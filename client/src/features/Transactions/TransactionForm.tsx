@@ -78,6 +78,16 @@ const TransactionForm: React.FC<TransactionFormProps> = ({onCloseModal}) => {
                     onChange={handleCategoryChange}
                     disabled={!selectedCategoryType}
                     fullWidth
+                    SelectProps={{
+                        MenuProps: {
+                            PaperProps: {
+                                style: {
+                                    maxHeight: 230,
+                                    width: 'auto',
+                                },
+                            },
+                        },
+                    }}
                     required
                     helperText={!selectedCategoryType ? "Please select type first" : ""}
                 >
@@ -130,7 +140,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({onCloseModal}) => {
                     color="primary"
                     disabled={isError}
                 >
-                    {currentTransaction ? TEXT.BUTTONS.SAVE : TEXT.BUTTONS.CREATE }
+                    {currentTransaction ? TEXT.BUTTONS.SAVE : TEXT.BUTTONS.ADD_TRANSACTION }
                 </Button>
             </Box>
         </Box>

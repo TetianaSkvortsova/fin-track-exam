@@ -1,5 +1,6 @@
 export type Goal = {
     id: string,
+    categoryTypeId: string,
     name: string
     targetDate: string,
     balance: string,

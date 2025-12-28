@@ -50,9 +50,9 @@ export const QUERIES = Object.freeze({
                             `,
     SELECT_BALANCE_BY_USER_ID: `select (sum(tri.amount)::numeric(24, 8) - sum(tro.amount)::numeric(24, 8)) as amount
                                 from categories c
-                                         left outer join transactions tri on tri.category_id = c.id and c.category_type_id = '00000001-0000-0000-0000-000000000001'
-                                         left outer join transactions tro on tro.category_id = c.id and c.category_type_id = '00000001-0000-0000-0000-000000000002'
-                                where c.user_id = $1 and c.category_type_id <> '00000001-0000-0000-0000-000000000003'`,
+                                         left outer join transactions tri on tri.category_id = c.id and not tri.cumulative and c.category_type_id in ('00000001-0000-0000-0000-000000000001')
+                                         left outer join transactions tro on tro.category_id = c.id and not tro.cumulative and c.category_type_id in ('00000001-0000-0000-0000-000000000002', '00000001-0000-0000-0000-000000000003')
+                                where c.user_id = $1`,
     SELECT_TRANSACTIONS_BY_USER_ID: `select
                                          t.id,
                                          t.category_id,
@@ -82,7 +82,7 @@ export const QUERIES = Object.freeze({
                             c.id,
                             c.name
                         FROM categories c
-                        WHERE c.user_id = $1
+                        WHERE c.user_id = $1 and c.completed = false
     `,
     SELECT_CATEGORY_BY_CATEGORY_TYPE_WITH_BALANCE: `select  
                                               sum(COALESCE(t.amount, 0)) as amount
@@ -130,7 +130,7 @@ export const QUERIES = Object.freeze({
                             c.category_type_id
                         FROM transactions t
                                  JOIN categories c ON t.category_id = c.id
-                        WHERE t.id = $1 AND t.user_id = $2
+                        WHERE t.id = $1 AND t.user_id = $2)
                         `,
     SELECT_TRANSACTIONS_BY_CATEGORY_TYPE: `
                         SELECT
@@ -155,7 +155,7 @@ export const QUERIES = Object.freeze({
                             c.completed,
                             sum(t.amount) as amount
                         FROM categories c
-                            left outer join transactions t on c.id = t.category_id
+                            left outer join transactions t on c.id = t.category_id and t.cumulative = false
                         WHERE c.user_id = $1 and c.category_type_id = $2
                         group by c.id,
                                  c.user_id,
@@ -166,8 +166,8 @@ export const QUERIES = Object.freeze({
                         `,
     APPEND_TRANSACTION: `
                         WITH inserted_row AS (
-                        INSERT INTO transactions (user_id, category_id, "when", amount, description)
-                        VALUES ($1, $2, $3, $4, $5)
+                        INSERT INTO transactions (user_id, category_id, "when", amount, description, cumulative)
+                        VALUES ($1, $2, $3, $4, $5, $6)
                             RETURNING *
                             )
                         SELECT

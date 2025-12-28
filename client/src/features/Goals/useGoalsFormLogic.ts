@@ -13,16 +13,19 @@ export const useGoalsFormLogic = ({onCloseModal}: GoalsFormProps) => {
     const currentGoal = useAppSelector(state => state.goals.currentGoal) as Goal | null;
     const [formState, setFormState] = useState<Goal>({
         id: '',
+        categoryTypeId: '',
         name: '',
         targetAmount: '',
         targetDate: '',
         balance: '0',
+        completed: false,
     });
 
     useEffect(() => {
         if (currentGoal) {
             setFormState({
                 id: currentGoal.id,
+                categoryTypeId: currentGoal.categoryTypeId || '',
                 name: currentGoal.name || '',
                 targetAmount: currentGoal.targetAmount || '',
                 targetDate: currentGoal.targetDate || '',

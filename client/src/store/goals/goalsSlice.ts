@@ -29,7 +29,7 @@ export const createGoal = createAsyncThunk<NewGoalsResponse, Goal, { rejectValue
             return {
                 id: id,
                 name: name,
-                targetDate: goal_target_date,
+                targetDate: moment(goal_target_date).format("D MMM YYYY"),
                 targetAmount: goal_amount ? Number(goal_amount).toFixed(2) : '0.00',
             }
         } catch (error) {

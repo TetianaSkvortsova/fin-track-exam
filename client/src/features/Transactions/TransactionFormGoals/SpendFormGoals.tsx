@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Box, Button, Grid, MenuItem, TextField, Typography} from "@mui/material";
+import {Box, Button, Grid, TextField, Typography} from "@mui/material";
 import {TEXT} from "../../../constants/textConstants.ts";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
@@ -15,13 +15,13 @@ const SpendFormGoals: React.FC<GoalsFormProps> = ({onCloseModal})=>  {
         handleSubmit,
         handleCancel,
         handleChange,
-        handleCategoryChange,
+        // handleCategoryChange,
         currentGoal,
-        categories,
+        // categories,
         formState,
     } = useSpendFormGoalsLogic({onCloseModal});
 
-    const isError = formState.amount !== '' && !/^\d*[.,]?\d*$/.test(formState.amount);
+    // const isError = formState.amount !== '' && !/^\d*[.,]?\d*$/.test(formState.amount);
     return (
         <Box
             component="form"
@@ -41,37 +41,30 @@ const SpendFormGoals: React.FC<GoalsFormProps> = ({onCloseModal})=>  {
                     name="name"
                     defaultValue={currentGoal?.name}
                 />
-                <TextField
+               {/* <TextField
                     select
                     label="Select Category"
                     value={formState.categoryId}
                     onChange={handleCategoryChange}
                     fullWidth
                     required
-                    // helperText={!selectedCategoryType ? "Please select type first" : ""}
+                    SelectProps={{
+                        MenuProps: {
+                            PaperProps: {
+                                style: {
+                                    maxHeight: 230,
+                                    width: 'auto',
+                                },
+                            },
+                        },
+                    }}
                 >
                     {categories.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
                             {option.name}
                         </MenuItem>
                     ))}
-                </TextField>
-                {/*<TextField
-                    required
-                    fullWidth
-                    label={TEXT.FORMS.AMOUNT}
-                    name="amount"
-                    value={formState.amount}
-                    onChange={handleChange}
-                    error={isError}
-                    helperText={isError ? "Please enter only numbers" : ""}
-                    slotProps={{
-                        htmlInput: {
-                            inputMode: 'decimal',
-                            step: "0.01"
-                        }
-                    }}
-                />*/}
+                </TextField>*/}
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
@@ -115,7 +108,7 @@ const SpendFormGoals: React.FC<GoalsFormProps> = ({onCloseModal})=>  {
                     type="submit"
                     variant="contained"
                     color="primary"
-                    disabled={isError}
+                    // disabled={isError}
                 >
                     {currentGoal ? TEXT.BUTTONS.SAVE : TEXT.BUTTONS.CREATE }
                 </Button>

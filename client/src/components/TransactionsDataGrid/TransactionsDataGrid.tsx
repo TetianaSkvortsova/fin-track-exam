@@ -30,7 +30,7 @@ const prepareRows = (transactions: Transaction[]) => {
                 amount: transactions
                     .filter(transaction => (transaction.when.includes('T') ? transaction.when.split('T')[0] : transaction.when) === currentDate)
                     .reduce((sum, transaction) => {
-                        if (transaction.categoryTypeId !== INCOME_CATEGORY_ID) {
+                        if (transaction.categoryTypeId === EXPENSE_CATEGORY_ID || transaction.categoryTypeId === GOAL_CATEGORY_ID) {
                             return sum + (Number(transaction.amount)*(-1));
                         } else {
                             return sum + Number(transaction.amount);

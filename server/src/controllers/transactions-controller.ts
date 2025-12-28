@@ -48,8 +48,8 @@ export const selectBalanceByUserId = async (request: Request, response: Response
 export const appendTransaction = async (request: Request, response: Response) => {
     try {
         const {userId} = (request as any).user;
-        const {categoryId, when, amount, description} = request.body;
-        const values = [userId, categoryId, when, amount, description];
+        const {categoryId, when, amount, description, cumulative} = request.body;
+        const values = [userId, categoryId, when, amount, description, !!cumulative];
         const result = await db.query(QUERIES.APPEND_TRANSACTION, values);
         return response.status(201).json(result.rows[0]);
     }

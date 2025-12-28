@@ -25,7 +25,7 @@ type BalanceCardProps = {
 
 export default function BalanceCard({ icon, title, balance }: BalanceCardProps) {
     const isExpense = title.toLowerCase().includes('expense');
-    const displayColor = isExpense ? '#f44336' : '#4CAF50';
+    const displayColor = isExpense || Number(balance) < 0 ? '#f44336' : '#4CAF50';
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -44,7 +44,11 @@ export default function BalanceCard({ icon, title, balance }: BalanceCardProps) 
                 <Grid size={8}>
                     <Stack >
                         <Item>{title}</Item>
-                        <Item sx={{fontSize: '30px', fontWeight: 'bold', color: displayColor,}}>
+                        <Item sx={{
+                            fontSize: '30px',
+                            fontWeight: 'bold',
+                            color: displayColor,
+                        }}>
                             {Number(balance).toFixed(2)}
                         </Item>
                     </Stack>

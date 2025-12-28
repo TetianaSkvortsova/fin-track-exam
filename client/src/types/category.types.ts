@@ -23,7 +23,7 @@ export type RequestDate = {
 }
 
 
-export type RequestUpdate = RequestDate & { id: string };
+export type RequestUpdate = RequestDate & { id: string};
 
 export type ResponseDate = {
   id: string;

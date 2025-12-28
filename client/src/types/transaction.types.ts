@@ -5,6 +5,7 @@ export type Transaction = {
     when: string;
     description: string;
     amount: string;
+    cumulative: boolean;
 }
 
 export type TransactionsInitialState = {
@@ -17,11 +18,6 @@ export type RequestAddTransaction = Omit<Transaction, 'id'>;
 
 export type TransactionFormErrors = {
     [key in keyof RequestAddTransaction]?: string;
-}
-
-export type DateRangeParams = {
-    dateFrom: string;
-    dateTo: string;
 }
 
 export type initialRequestState = {

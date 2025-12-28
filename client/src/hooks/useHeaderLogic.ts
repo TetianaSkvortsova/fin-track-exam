@@ -20,26 +20,29 @@ export type UseHeaderLogic = {
 }
 
 export const useHeaderLogic = (): UseHeaderLogic => {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const auth = useAppSelector((state: RootState) => state.user.isAuthenticated);
     const balance = useAppSelector((state: RootState) => state.balance);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const dispatch = useAppDispatch();
+    const transactions = useAppSelector(state => state.transactions.transactions)
 
     useEffect(() => {
-        dispatch(getBalanceByUser());
-    }, [dispatch]);
+        if (auth) {
+            dispatch(getBalanceByUser());
+        }
+    }, [dispatch, auth, transactions]);
 
     const handleCloseMenu = () => {
         setAnchorEl(null);
     };
 
     const handleSignUpClick = () => {
-        dispatch(openModal({ type: 'REGISTER' }));
+        dispatch(openModal({type: 'REGISTER'}));
     }
 
     const handleLoginClick = () => {
-        dispatch(openModal({ type: 'LOGIN' }));
+        dispatch(openModal({type: 'LOGIN'}));
     }
 
     const handleLogOut = () => {
@@ -48,13 +51,12 @@ export const useHeaderLogic = (): UseHeaderLogic => {
         sessionStorage.removeItem('token');
     };
 
-    //Open menu user icon
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleAddTransaction = () => {
-        dispatch(openModal({ type: 'ADD_TRANSACTION' }));
+        dispatch(openModal({type: 'ADD_TRANSACTION'}));
         navigate('/transactions');
     }
 

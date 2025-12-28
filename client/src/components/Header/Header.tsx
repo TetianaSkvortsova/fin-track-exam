@@ -17,7 +17,6 @@ function Header() {
         handleAddTransaction,
     } = useHeaderLogic();
 
-    // Not authorized user
     const renderAuthButtons = () => (
         <Box sx={{display: 'flex', gap: 1}}>
             <Button
@@ -49,7 +48,6 @@ function Header() {
         </Box>
     );
 
-    // Authorized user
     const renderUserActions = () => (
         <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
             <Button
