@@ -1,7 +1,7 @@
 import {QUERIES} from "../datasources/queries";
 import * as db from '../db';
 import {Response, Request} from "express";
-import {GOAL_CATEGORY_ID} from "../../../global/constants/category-type-ids";
+import {GOAL_CATEGORY_ID} from "../global/constants/category-type-ids";
 
 export const getCategoryTypes = async (response: Response) => {
     try {
