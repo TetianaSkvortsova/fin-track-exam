@@ -25,7 +25,7 @@ const MODAL_COMPONENTS: Record<string, React.FC<any>> = {
 
 const AppModal = () => {
     const dispatch = useAppDispatch();
-    const { modalType, modalProps, isOpen } = useSelector((state: RootState) => state.modal);
+    const { modalType, isOpen } = useSelector((state: RootState) => state.modal);
     const SpecificContent = MODAL_COMPONENTS[modalType];
 
     const handleClose = () => {
@@ -44,7 +44,6 @@ const AppModal = () => {
         >
             <DialogContent>
                 <SpecificContent
-                    {...modalProps}
                     onCloseModal={handleClose}
                 />
             </DialogContent>

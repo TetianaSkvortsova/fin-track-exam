@@ -37,13 +37,14 @@ export const getBalanceByUser = createAsyncThunk(
 
 export const getBalanceByCategoryType = createAsyncThunk(
     'balance/getBalanceByCategoryType',
-    async (typeId: string, {rejectWithValue}) => {
+    async (typeIds: string[], {rejectWithValue}) => {
         try {
-            const response = await client.get(`${BALANCE_CATEGORY_TYPE_URL}?categoryTypeId=${typeId}&balance=true`);
+            const categoryTypeIdQuery = typeIds.map(id => `categoryTypeId=${id}`).join('&');
+            const response = await client.get(`${BALANCE_CATEGORY_TYPE_URL}?${categoryTypeIdQuery}&balance=true`);
 
             return {
                 data: response.data,
-                typeId: typeId,
+                typeId: typeIds[0],
             };
 
         } catch (error) {

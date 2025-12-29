@@ -80,7 +80,7 @@ export const QUERIES = Object.freeze({
                                               sum(COALESCE(t.amount, 0)) as amount
                                        from categories c
                                                 left outer join transactions t on c.id = t.category_id
-                                       where c.user_id = $1 and c.category_type_id = $2 {AND_COMPLETED}
+                                       where c.user_id = $1 and c.category_type_id = ANY($2) {AND_COMPLETED}
                                        group by c.id, c.name {GROUP_BY_COMPLETED}
     `,
     SELECT_CATEGORIES: `SELECT
@@ -94,7 +94,7 @@ export const QUERIES = Object.freeze({
                                               sum(COALESCE(t.amount, 0)) as amount
                                        from categories c
                                                 left outer join transactions t on c.id = t.category_id
-                                       where c.user_id = $1 and c.category_type_id = $2
+                                       where c.user_id = $1 and c.category_type_id = ANY($2) and not t.cumulative
     `,
     APPEND_SIMPLE_CATEGORY: `with new_category as (
                                 INSERT INTO categories (user_id, category_type_id, name) 

@@ -30,7 +30,7 @@ export const getCategoriesByCategoryType = async (request: Request, response: Re
     try {
         const {userId} = (request as any).user;
         const {categoryTypeId, balance, completed} = request.query;
-        const values = [userId, categoryTypeId];
+        const values = [userId, Array.isArray(categoryTypeId) ? categoryTypeId : [categoryTypeId]];
         let categoryByTypeQuery = '';
         if (!balance && !!completed) {
             categoryByTypeQuery = QUERIES.SELECT_CATEGORY_BY_CATEGORY_TYPE

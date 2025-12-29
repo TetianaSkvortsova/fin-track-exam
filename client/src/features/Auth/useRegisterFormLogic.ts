@@ -16,7 +16,7 @@ const passwordErrorMessage = '8+ chars. Must include: Uppercase, lowercase, numb
 const validationSchema = Yup.object().shape({
     name: Yup.string()
         .required('Name is required')
-        .min(2, 'Мінімум 2 символи'),
+        .min(2, 'Minimum 2 symbols'),
     lastname: Yup.string()
         .required('Lastname is required'),
     email: Yup.string()

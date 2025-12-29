@@ -7,7 +7,11 @@ import {getBalanceByCategoryType} from "../../store/balance/balanceSlice.ts";
 import dayjs from "dayjs";
 import {getTransactionsByUser} from "../../store/transactions/transactionsSlice.ts";
 import {getGoals} from "../../store/goals/goalsSlice.ts";
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../../../global/constants/category-type-ids.ts";
+import {
+    EXPENSE_CATEGORY_ID,
+    GOAL_CATEGORY_ID,
+    INCOME_CATEGORY_ID
+} from "../../../../global/constants/category-type-ids.ts";
 
 function DashboardPage() {
     const dispatch = useAppDispatch();
@@ -26,8 +30,8 @@ function DashboardPage() {
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         if (token) {
-            dispatch(getBalanceByCategoryType(INCOME_CATEGORY_ID));
-            dispatch(getBalanceByCategoryType(EXPENSE_CATEGORY_ID));
+            dispatch(getBalanceByCategoryType([INCOME_CATEGORY_ID]));
+            dispatch(getBalanceByCategoryType([EXPENSE_CATEGORY_ID, GOAL_CATEGORY_ID]));
             dispatch(getTransactionsByUser(startDate));
             dispatch(getGoals());
         }
