@@ -1,4 +1,4 @@
-import {EXPENSE_CATEGORY_ID, GOAL_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../../global/constants/category-type-ids";
+import {EXPENSE_CATEGORY_ID, GOAL_CATEGORY_ID, INCOME_CATEGORY_ID} from "../global/constants/category-type-ids";
 
 export const QUERIES = Object.freeze({
     INSERT_NEW_USER: `
