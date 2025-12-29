@@ -6,7 +6,7 @@ import type {
     Transaction,
     TransactionsInitialState
 } from "../../types";
-import axios from "axios";
+import {client} from "../../services/client.ts";
 
 const initialState: TransactionsInitialState = {
     transactions: [],
@@ -16,18 +16,14 @@ const initialState: TransactionsInitialState = {
 
 const API_URL = import.meta.env.VITE_API_KEY;
 const TRANSACTIONS_URL = `${API_URL}/transactions`;
-export const client = axios.create({
-    headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
-});
 
 export const getTransactionsByUser = createAsyncThunk(
     'transactions/getTransactions',
     async (requestData: initialRequestState, {rejectWithValue}) => {
         const {categoryType, category, startDate, endDate} = requestData;
         try {
-            const {data} = await client.get(`${TRANSACTIONS_URL}?${categoryType}&${category}&${startDate}&${endDate}`);
+            const queryParams = [`${categoryType}`, `${category}`, `${startDate}`, `${endDate}`].filter(Boolean);
+            const {data} = await client.get(`${TRANSACTIONS_URL}?${queryParams.join('&') ?? ''}`);
             return data.map(({category_id, category_type_id, ...rest}) => ({
                 ...rest,
                 categoryId: category_id,

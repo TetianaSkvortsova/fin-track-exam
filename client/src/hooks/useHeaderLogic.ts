@@ -23,12 +23,13 @@ export const useHeaderLogic = (): UseHeaderLogic => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const auth = useAppSelector((state: RootState) => state.user.isAuthenticated);
+    const token = sessionStorage.getItem('token');
     const balance = useAppSelector((state: RootState) => state.balance);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const transactions = useAppSelector(state => state.transactions.transactions)
 
     useEffect(() => {
-        if (auth) {
+        if (token) {
             dispatch(getBalanceByUser());
         }
     }, [dispatch, auth, transactions]);

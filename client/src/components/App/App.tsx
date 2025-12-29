@@ -5,34 +5,23 @@ import AppModal from "../AppModal/AppModal.tsx";
 import {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import {setAuthToken} from "../../store/user/userSlice.ts";
-import {
-    deleteCategory,
-    getCategoryTypes
-} from "../../store/category/categorySlice.ts";
+import {deleteCategory} from "../../store/category/categorySlice.ts";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
 import {closeDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
-import {deleteTransaction, getTransactionsByUser} from "../../store/transactions/transactionsSlice.ts";
+import {deleteTransaction} from "../../store/transactions/transactionsSlice.ts";
 import Menu from "../Menu/Menu.tsx";
-import {deleteGoal, getGoals} from "../../store/goals/goalsSlice.ts";
+import {deleteGoal} from "../../store/goals/goalsSlice.ts";
+import {setAuthHeader} from "../../services/client.ts";
 
 function App() {
     const dispatch = useAppDispatch();
     const isAuth = useAppSelector(state => state.user.isAuthenticated);
+    const token = sessionStorage.getItem('token');
+    setAuthHeader(token || '');
     const {open, title, description, confirmText, idToDelete, actionType} = useAppSelector(state => state.dialog);
-    const requestData = {
-        categoryType: '',
-        category: '',
-        startDate: '',
-        endDate: '',
-    }
 
     useEffect(() => {
         dispatch(setAuthToken());
-        if (isAuth) {
-            dispatch(getCategoryTypes());
-            dispatch(getTransactionsByUser(requestData));
-            dispatch(getGoals());
-        }
     }, [dispatch, isAuth]);
 
     const handleConfirm = () => {
@@ -52,7 +41,7 @@ function App() {
         <>
             <Header/>
             <div className={'content-wrapper'}>
-                {isAuth && <Menu/>}
+                {token && <Menu/>}
                 <Content/>
             </div>
 

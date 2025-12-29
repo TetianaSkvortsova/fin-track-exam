@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import type {LoginData, RegisterData, ResponseData, UserState} from "../../types";
+import {setAuthHeader} from "../../services/client.ts";
 
 const initialState: UserState = {
     isAuthenticated: false,
@@ -20,7 +21,7 @@ export const registerNewUser = createAsyncThunk<ResponseData, RegisterData, { re
             const result = await client.post(REGISTER_URL, user);
             const newToken = result.data.token;
             sessionStorage.setItem('token', newToken);
-            client.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+            setAuthHeader(newToken);
             return result.data;
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -38,7 +39,7 @@ export const loginUser = createAsyncThunk<ResponseData, LoginData, { rejectValue
             const result = await client.post(LOGIN_URL, user);
             const newToken = result.data.token;
             sessionStorage.setItem('token', newToken);
-            client.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+            setAuthHeader(newToken);
             return result.data;
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {

@@ -1,6 +1,6 @@
-import axios from "axios";
+import {client} from "../../services/client.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import type {Goal, GoalsState, NewGoalsResponse, RequestUpdate, ResponseDate} from "../../types";
+import type {Goal, GoalsState, NewGoalsResponse} from "../../types";
 import moment from "moment/moment";
 import {updateCategory} from "../category/categorySlice.ts";
 
@@ -13,11 +13,6 @@ const initialState: GoalsState = {
 const API_URL = import.meta.env.VITE_API_KEY;
 const GOAL_URL = `${API_URL}/goals`;
 const DELETE_GOAL_URL = `${API_URL}/categories`;
-export const client = axios.create({
-    headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
-});
 
 export const createGoal = createAsyncThunk<NewGoalsResponse, Goal, { rejectValue: string }>(
     'goals/createGoal',

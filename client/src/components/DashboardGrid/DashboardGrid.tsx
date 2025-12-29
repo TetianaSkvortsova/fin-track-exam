@@ -34,7 +34,7 @@ export default function DashboardGrid() {
     const balance = useAppSelector(state => state.balance);
     const goals = useAppSelector(state => state.goals.goals);
     const isTransactions = useAppSelector(state => state.transactions.transactions.length > 0);
-    const isGoals = useAppSelector(state => state.goals.goals.length > 0);
+    const isGoals = goals.length > 0;
     const cards: { type: IconType; title: string, balance: string }[] = [
         {type: 'balance', title: 'Balance', balance: balance.amount},
         {type: 'income', title: 'Income', balance: balance.income},

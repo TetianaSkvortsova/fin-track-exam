@@ -5,7 +5,7 @@ import type {
     RequestDate, RequestUpdate,
     ResponseDate,
 } from "../../types";
-import axios from "axios";
+import {client} from "../../services/client.ts";
 import {CATEGORY_TYPES, EXPENSE_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 
 const initialState: CategoryState = {
@@ -19,11 +19,6 @@ const initialState: CategoryState = {
 const API_URL = import.meta.env.VITE_API_KEY;
 const CATEGORY_TYPES_URL = `${API_URL}/category-types`;
 const CATEGORIES_URL = `${API_URL}/categories`;
-export const client = axios.create({
-    headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
-});
 
 export const getCategoryTypes = createAsyncThunk<CategoryTypes[], void, { rejectValue: string }>(
     'categories/getCategoryTypes',

@@ -48,7 +48,6 @@ const prepareRows = (transactions: Transaction[]) => {
 function TransactionsDataGrid({transactions}: TransactionsProps) {
     const dispatch = useAppDispatch();
     const {handleEditTransaction} = useTransactionActions();
-    console.log("Transactions received in Grid:", transactions);
     const rows = useMemo(() => {
         return prepareRows(transactions);
     }, [transactions]);

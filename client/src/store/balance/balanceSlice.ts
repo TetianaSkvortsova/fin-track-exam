@@ -1,4 +1,4 @@
-import axios from "axios";
+import {client} from "../../services/client.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 
@@ -20,11 +20,6 @@ const API_URL_BALANCE = import.meta.env.VITE_API_KEY;
 const API_URL_BALANCE_CATEGORY_TYPE = import.meta.env.VITE_API_KEY;
 const BALANCE_URL = `${API_URL_BALANCE}/transactions/balance`;
 const BALANCE_CATEGORY_TYPE_URL = `${API_URL_BALANCE_CATEGORY_TYPE}/categories`;
-export const client = axios.create({
-    headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-    }
-});
 
 export const getBalanceByUser = createAsyncThunk(
     'balance/getBalance',
