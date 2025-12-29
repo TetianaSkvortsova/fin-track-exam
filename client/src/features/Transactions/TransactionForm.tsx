@@ -29,18 +29,6 @@ const TransactionForm: React.FC<TransactionFormProps> = ({onCloseModal}) => {
     } = useTransactionFormLogic({onCloseModal});
 
     const isError = formState.amount !== '' && !/^\d*[.,]?\d*$/.test(formState.amount);
-/*    // Додайте імпорт константи, якщо вона ще не там
-    import { GOAL_CATEGORY_ID } from "../../constants/categoryTypes";
-
-// Всередині компонента TransactionForm:
-    const selectedCategoryData = categories.find(cat => cat.id === formState.categoryId);
-
-// Розрахунок залишку для цілі
-    const remainingLimit = selectedCategoryData && formState.categoryTypeId === GOAL_CATEGORY_ID
-        ? Number(selectedCategoryData.targetAmount) - Number(selectedCategoryData.balance)
-        : null;
-
-    const isOverLimit = remainingLimit !== null && Number(formState.amount) > remainingLimit;*/
 
     return (
         <Box
@@ -104,7 +92,6 @@ const TransactionForm: React.FC<TransactionFormProps> = ({onCloseModal}) => {
                     helperText={!selectedCategoryType ? "Please select type first" : ""}
                 >
                     {categories
-                        // .filter((option) => !option.completed)
                         .map((option) => (
                         <MenuItem key={option.id} value={option.id}>
                             {option.name}
@@ -140,7 +127,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({onCloseModal}) => {
                     onChange={handleChange}
                 />
             </Grid>
-            {/* Buttons */}
+
             <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3}}>
                 <Button
                     variant="outlined"

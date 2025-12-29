@@ -15,13 +15,10 @@ const SpendFormGoals: React.FC<GoalsFormProps> = ({onCloseModal})=>  {
         handleSubmit,
         handleCancel,
         handleChange,
-        // handleCategoryChange,
         currentGoal,
-        // categories,
         formState,
     } = useSpendFormGoalsLogic({onCloseModal});
 
-    // const isError = formState.amount !== '' && !/^\d*[.,]?\d*$/.test(formState.amount);
     return (
         <Box
             component="form"
@@ -41,30 +38,6 @@ const SpendFormGoals: React.FC<GoalsFormProps> = ({onCloseModal})=>  {
                     name="name"
                     defaultValue={currentGoal?.name}
                 />
-               {/* <TextField
-                    select
-                    label="Select Category"
-                    value={formState.categoryId}
-                    onChange={handleCategoryChange}
-                    fullWidth
-                    required
-                    SelectProps={{
-                        MenuProps: {
-                            PaperProps: {
-                                style: {
-                                    maxHeight: 230,
-                                    width: 'auto',
-                                },
-                            },
-                        },
-                    }}
-                >
-                    {categories.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                            {option.name}
-                        </MenuItem>
-                    ))}
-                </TextField>*/}
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
@@ -96,7 +69,7 @@ const SpendFormGoals: React.FC<GoalsFormProps> = ({onCloseModal})=>  {
                 />
 
             </Grid>
-            {/* Buttons */}
+
             <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3}}>
                 <Button
                     variant="outlined"
@@ -108,7 +81,6 @@ const SpendFormGoals: React.FC<GoalsFormProps> = ({onCloseModal})=>  {
                     type="submit"
                     variant="contained"
                     color="primary"
-                    // disabled={isError}
                 >
                     {currentGoal ? TEXT.BUTTONS.SAVE : TEXT.BUTTONS.CREATE }
                 </Button>

@@ -4,9 +4,10 @@ import DashboardGrid from "../../components/DashboardGrid/DashboardGrid.tsx";
 import {useEffect} from "react";
 import {useAppDispatch} from "../../store/hooks.ts";
 import {getBalanceByCategoryType} from "../../store/balance/balanceSlice.ts";
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 import dayjs from "dayjs";
 import {getTransactionsByUser} from "../../store/transactions/transactionsSlice.ts";
+import {getGoals} from "../../store/goals/goalsSlice.ts";
+import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../../../global/constants/category-type-ids.ts";
 
 function DashboardPage() {
     const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ function DashboardPage() {
             dispatch(getBalanceByCategoryType(INCOME_CATEGORY_ID));
             dispatch(getBalanceByCategoryType(EXPENSE_CATEGORY_ID));
             dispatch(getTransactionsByUser(startDate));
+            dispatch(getGoals());
         }
     }, [dispatch]);
 

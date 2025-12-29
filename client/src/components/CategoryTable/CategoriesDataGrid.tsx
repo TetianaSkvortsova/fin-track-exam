@@ -4,8 +4,8 @@ import {createColumns} from "./CategoriesColumns.tsx";
 import './CategoriesDataGrid.scss';
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import {AccountBalanceWallet, MonetizationOn} from '@mui/icons-material';
-import {EXPENSE_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 import {useCategoryActions} from "../../hooks/useCategoryActions.ts";
+import {EXPENSE_CATEGORY_ID} from "../../../../global/constants/category-type-ids.ts";
 
 const CategoriesDataGrid = () => {
     const dispatch = useAppDispatch();

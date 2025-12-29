@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import * as React from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -18,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 type BalanceCardProps = {
-    icon: JSX.Element;
+    icon: React.ReactNode;
     title: string;
     balance: string;
 }

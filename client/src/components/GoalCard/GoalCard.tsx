@@ -22,7 +22,7 @@ function GoalCard({goal}: GoalCardProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const isReached = Number(goal.balance) >= Number(goal.targetAmount);
-    const isCompleted = goal.completed === true;
+    const isCompleted = goal.completed;
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -121,7 +121,10 @@ function GoalCard({goal}: GoalCardProps) {
                         horizontal: 'right',
                     }}
                 >
-                    <MenuItem onClick={handleEdit}>{TEXT.SUB_MENU.EDIT}</MenuItem>
+
+                    {!goal.completed &&
+                        <MenuItem onClick={handleEdit}>{TEXT.SUB_MENU.EDIT}</MenuItem>
+                    }
                     <MenuItem onClick={handleDelete} sx={{color: 'error.main'}}>{TEXT.SUB_MENU.DELETE}</MenuItem>
                 </Menu>
             </Paper>

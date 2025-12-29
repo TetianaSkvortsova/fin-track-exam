@@ -40,7 +40,6 @@ const AddCategoryForm: React.FC<AddCategoryFormProps> = ({onCloseModal}: AddCate
                 />
             </Grid>
 
-            {/* Buttons */}
             <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 4}}>
                 <Button
                     variant="outlined"

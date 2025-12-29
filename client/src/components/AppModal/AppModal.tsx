@@ -9,6 +9,7 @@ import TransactionForm from "../../features/Transactions/TransactionForm.tsx";
 import LoginForm from "../../features/Auth/LoginForm/LoginForm.tsx";
 import GoalsForm from "../../features/Goals/GoalsForm.tsx";
 import SpendFormGoals from "../../features/Transactions/TransactionFormGoals/SpendFormGoals.tsx";
+import * as React from "react";
 
 const MODAL_COMPONENTS: Record<string, React.FC<any>> = {
     'REGISTER': RegisterForm,

@@ -52,9 +52,8 @@ export const getTransactionById = createAsyncThunk(
 export const createTransaction = createAsyncThunk<Transaction, RequestAddTransaction, { rejectValue: string }>(
     'transactions/createTransaction',
     async (newTransaction: RequestAddTransaction, {rejectWithValue}) => {
-        const {id, ...rest} = newTransaction;
         try {
-            const {data} = await client.post(TRANSACTIONS_URL, rest);
+            const {data} = await client.post(TRANSACTIONS_URL, newTransaction);
             return data;
         } catch (error) {
             console.log(error);

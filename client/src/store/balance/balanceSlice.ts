@@ -1,6 +1,7 @@
 import {client} from "../../services/client.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
+
+import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../../../global/constants/category-type-ids.ts";
 
 type BalanceState = {
     amount: string;

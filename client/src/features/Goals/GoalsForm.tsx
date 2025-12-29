@@ -82,7 +82,7 @@ const GoalsForm: React.FC<GoalsFormProps> = ({onCloseModal}) => {
                 </LocalizationProvider>
 
             </Grid>
-            {/* Buttons */}
+
             <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3}}>
                 <Button
                     variant="outlined"

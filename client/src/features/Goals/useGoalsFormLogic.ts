@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import type {Goal} from "../../types";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import * as React from "react";
-import {createGoal, updateGoal} from "../../store/goals/goalsSlice.ts";
+import {clearCurrentGoal, createGoal, updateGoal} from "../../store/goals/goalsSlice.ts";
 
 type GoalsFormProps = {
     onCloseModal: () => void;
@@ -40,13 +40,12 @@ export const useGoalsFormLogic = ({onCloseModal}: GoalsFormProps) => {
         event.preventDefault();
         const isEditing = !!currentGoal;
         if (isEditing) {
-            console.log('edit: ', formState);
             dispatch(updateGoal(formState));
         } else {
-            console.log('create: ', formState);
             dispatch(createGoal(formState));
         }
         onCloseModal();
+        dispatch(clearCurrentGoal());
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +66,7 @@ export const useGoalsFormLogic = ({onCloseModal}: GoalsFormProps) => {
 
     const handleCancel = () => {
         onCloseModal();
+        dispatch(clearCurrentGoal());
     }
 
 

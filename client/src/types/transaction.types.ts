@@ -16,10 +16,6 @@ export type TransactionsInitialState = {
 
 export type RequestAddTransaction = Omit<Transaction, 'id'>;
 
-export type TransactionFormErrors = {
-    [key in keyof RequestAddTransaction]?: string;
-}
-
 export type initialRequestState = {
     categoryType: string | null,
     category: string | null,

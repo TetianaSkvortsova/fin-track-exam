@@ -1,15 +1,15 @@
 import type {CategoryTypes} from "../types";
+import {
+    EXPENSE_CATEGORY_ID,
+    GOAL_CATEGORY_ID,
+    INCOME_CATEGORY_ID
+} from "../../../global/constants/category-type-ids.ts";
 
-type TIdObjects = {
+type TObjectIds = {
     [key: string]: Partial<CategoryTypes>
 }
 
-export const INCOME_CATEGORY_ID = '00000001-0000-0000-0000-000000000001';
-export const EXPENSE_CATEGORY_ID = '00000001-0000-0000-0000-000000000002';
-export const GOAL_CATEGORY_ID = '00000001-0000-0000-0000-000000000003';
-export const NOOP_CATEGORY_ID = '00000001-0000-0000-0000-000000000004';
-
-export const CATEGORY_TYPES: TIdObjects = Object.freeze({
+export const CATEGORY_TYPES: TObjectIds = Object.freeze({
     [INCOME_CATEGORY_ID]: {
         caption: 'Income'
     },

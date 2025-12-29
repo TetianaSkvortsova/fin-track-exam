@@ -98,10 +98,12 @@ export const updateGoal = createAsyncThunk<Goal, Goal, { rejectValue: string }>(
         const goalId = updatedGoal.id;
         try {
             const {data} = await client.put(`${GOAL_URL}/${goalId}`, updatedGoal);
+            const correctDate = moment(data.goal_target_date).format("D MMM YYYY");
             return {
                 id: data.id,
+                categoryTypeId: data.category_type_id,
                 name: data.name,
-                targetDate: data.goal_target_date,
+                targetDate: correctDate,
                 targetAmount: data.goal_amount ? Number(data.goal_amount).toFixed(2) : '0.00',
                 balance: data.amount ? Number(data.amount).toFixed(2) : '0.00',
                 completed: data.completed,
@@ -118,7 +120,7 @@ export const goalsSlice = createSlice({
     initialState,
     reducers: {
         clearCurrentGoal: (state) => {
-            state.currentTransaction = null;
+            state.currentGoal = null;
         }
     },
     extraReducers: builder => {

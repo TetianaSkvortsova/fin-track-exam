@@ -2,8 +2,8 @@ import {useMemo} from "react";
 import * as React from "react";
 import type {CategoryType, CategoryTypes} from "../types";
 import {useAppDispatch, useAppSelector} from "../store/hooks.ts";
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../constants/categoryTypes.ts";
 import {setCurrentType} from "../store/category/categorySlice.ts";
+import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../../global/constants/category-type-ids.ts";
 
 export type UseCategoriesType = {
     categories: CategoryTypes[];

@@ -40,7 +40,6 @@ export const useSpendFormGoalsLogic = ({onCloseModal}: UseSpendFormGoalsLogicFor
         };
 
         try {
-            console.log('create transaction: ', transactionData);
             await dispatch(createTransaction(transactionData)).unwrap();
             dispatch(updateGoal(completedGoalData));
         } catch (error) {

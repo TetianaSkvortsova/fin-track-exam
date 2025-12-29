@@ -9,7 +9,6 @@ import {
     updateTransaction
 } from "../../store/transactions/transactionsSlice.ts";
 import {getBalanceByUser} from "../../store/balance/balanceSlice.ts";
-// import {GOAL_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 
 type TransactionFormProps = {
     onCloseModal: () => void;

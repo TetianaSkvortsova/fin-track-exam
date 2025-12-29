@@ -1,3 +1,5 @@
+import {EXPENSE_CATEGORY_ID, GOAL_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../../global/constants/category-type-ids";
+
 export const QUERIES = Object.freeze({
     INSERT_NEW_USER: `
             INSERT INTO users (email, password_hash, name, lastname)
@@ -42,16 +44,17 @@ export const QUERIES = Object.freeze({
                                    sum(COALESCE(t.amount, 0)) as amount
                             from updated_category as uc
                                      left outer join transactions t on uc.id = t.category_id
+                            where not t.cumulative
                             group by uc.id, uc.name, uc.goal_amount, uc.goal_target_date, uc.completed
                             `,
     DELETE_CATEGORY_BY_ID: `DELETE from categories
                             WHERE id = $1 and user_id = $2
                             RETURNING *
                             `,
-    SELECT_BALANCE_BY_USER_ID: `select (sum(tri.amount)::numeric(24, 8) - sum(tro.amount)::numeric(24, 8)) as amount
+    SELECT_BALANCE_BY_USER_ID: `select (sum(COALESCE(tri.amount, 0))::numeric(24, 8) - sum(COALESCE(tro.amount, 0))::numeric(24, 8)) as amount
                                 from categories c
-                                         left outer join transactions tri on tri.category_id = c.id and not tri.cumulative and c.category_type_id in ('00000001-0000-0000-0000-000000000001')
-                                         left outer join transactions tro on tro.category_id = c.id and not tro.cumulative and c.category_type_id in ('00000001-0000-0000-0000-000000000002', '00000001-0000-0000-0000-000000000003')
+                                         left outer join transactions tri on tri.category_id = c.id and not tri.cumulative and c.category_type_id in ('${INCOME_CATEGORY_ID}')
+                                         left outer join transactions tro on tro.category_id = c.id and not tro.cumulative and c.category_type_id in ('${EXPENSE_CATEGORY_ID}', '${GOAL_CATEGORY_ID}')
                                 where c.user_id = $1`,
     SELECT_TRANSACTIONS_BY_USER_ID: `select
                                          t.id,
@@ -197,6 +200,6 @@ export const QUERIES = Object.freeze({
                             c.goal_target_date,
                             c.completed
                         FROM categories c
-                        WHERE c.id = $1 and c.user_id = $2 and c.category_type_id = $3
+                        WHERE c.id = $1 and c.user_id = $2 and c.category_type_id = $3      
                             `,
 });

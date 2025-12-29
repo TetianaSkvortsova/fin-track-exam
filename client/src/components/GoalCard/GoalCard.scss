@@ -12,11 +12,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40px; // Такої ж висоти, як була кнопка чи прогрес-бар
+    height: 40px;
     background-color: #f8fafc;
     border: 1px dashed #cbd5e1;
     border-radius: 8px;
-    color: #10b981; // Зелений колір успіху
+    color: #10b981;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -32,7 +32,7 @@
     font-size: 18px;
     font-weight: 700;
     color: #2c3e50;
-    word-break: break-word; // Щоб довга назва не наповзала на кнопку
+    word-break: break-word;
     padding-right: 8px;
   }
 
@@ -44,7 +44,7 @@
   }
 
   &__more-button {
-    margin-top: -4px; // Трохи піднімаємо для візуального центрування з текстом
+    margin-top: -4px;
     color: #94a3b8 !important;
 
     &:hover {

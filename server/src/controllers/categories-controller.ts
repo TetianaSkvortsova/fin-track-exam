@@ -1,6 +1,7 @@
 import {QUERIES} from "../datasources/queries";
 import * as db from '../db';
 import {Response, Request} from "express";
+import {GOAL_CATEGORY_ID} from "../../../global/constants/category-type-ids";
 
 export const getCategoryTypes = async (response: Response) => {
     try {
@@ -104,7 +105,7 @@ export const updateGoalById = async (request: Request, response: Response) => {
         const {userId} = (request as any).user;
         const id = request.params.id;
         const {name, targetDate, targetAmount, completed} = request.body;
-        const values = [id, userId, '00000001-0000-0000-0000-000000000003', name, targetDate, targetAmount, !!completed];
+        const values = [id, userId, GOAL_CATEGORY_ID, name, targetDate, targetAmount, !!completed];
         const result = await db.query(QUERIES.UPDATE_GOAL_BY_ID, values);
         return response.status(200).json(result.rows.length > 0 ? result.rows[0] : {});
     }
@@ -130,7 +131,7 @@ export const appendGoal = async (request: Request, response: Response) => {
     try {
         const {userId} = (request as any).user;
         const {name, targetAmount, targetDate} = request.body;
-        const values = [userId, '00000001-0000-0000-0000-000000000003', name, targetAmount, targetDate];
+        const values = [userId, GOAL_CATEGORY_ID, name, targetAmount, targetDate];
         const result = await db.query(QUERIES.INSERT_GOAL, values);
         return response.status(201).json(result.rows[0]);
     }
@@ -142,7 +143,7 @@ export const appendGoal = async (request: Request, response: Response) => {
 export const getGoalsByCategoryType = async (request: Request, response: Response) => {
     try {
         const {userId} = (request as any).user;
-        const values = [userId, '00000001-0000-0000-0000-000000000003'];
+        const values = [userId, GOAL_CATEGORY_ID];
         const dbQuery = QUERIES.SELECT_GOALS_BY_USER_ID;
         const result = await db.query(dbQuery, values);
         return response.status(200).json(result.rows);
@@ -156,7 +157,7 @@ export const getGoalById = async (request: Request, response: Response) => {
     try {
         const {userId} = (request as any).user;
         const id = request.params.id;
-        const values = [id, userId, '00000001-0000-0000-0000-000000000003'];
+        const values = [id, userId, GOAL_CATEGORY_ID];
         const result = await db.query(QUERIES.SELECT_GOAL_BY_ID, values);
         return response.status(200).json(result.rows.length > 0 ? result.rows[0] : {});
     }

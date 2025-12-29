@@ -4,12 +4,16 @@ import {DataGrid, type GridColDef} from "@mui/x-data-grid";
 import {Box, IconButton, Stack, Tooltip} from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import {EXPENSE_CATEGORY_ID, GOAL_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 import {Delete, Edit} from "@mui/icons-material";
 import './TransactionsDataGrid.scss';
 import {useAppDispatch} from "../../store/hooks.ts";
 import {openDeleteDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
 import {useTransactionActions} from "../../hooks/useTransactionsActions.ts";
+import {
+    EXPENSE_CATEGORY_ID,
+    GOAL_CATEGORY_ID,
+    INCOME_CATEGORY_ID
+} from "../../../../global/constants/category-type-ids.ts";
 
 type TransactionsProps = {
     transactions: Transaction[]

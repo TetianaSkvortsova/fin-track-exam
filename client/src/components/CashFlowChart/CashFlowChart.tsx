@@ -3,7 +3,8 @@ import {useAppSelector} from "../../store/hooks.ts";
 import dayjs from "dayjs";
 import type {Transaction} from "../../types";
 import {useMemo} from "react";
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
+
+import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../../../global/constants/category-type-ids.ts";
 
 const prepareChartData = (transactions: Transaction[]) => {
     const groupedData = transactions.reduce((acc, transaction) => {

@@ -6,7 +6,8 @@ import type {
     ResponseDate,
 } from "../../types";
 import {client} from "../../services/client.ts";
-import {CATEGORY_TYPES, EXPENSE_CATEGORY_ID} from "../../constants/categoryTypes.ts";
+import {CATEGORY_TYPES} from "../../constants/categoryTypes.ts";
+import {EXPENSE_CATEGORY_ID} from "../../../../global/constants/category-type-ids.ts";
 
 const initialState: CategoryState = {
     types: [],

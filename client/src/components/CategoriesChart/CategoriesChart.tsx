@@ -2,8 +2,8 @@ import {Cell, Pie, PieChart, ResponsiveContainer, Sector} from 'recharts';
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import {useEffect, useState} from "react";
 import {getCategoriesByType} from "../../store/category/categorySlice.ts";
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 import {TEXT} from "../../constants/textConstants.ts";
+import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../../../global/constants/category-type-ids.ts";
 
 type Value = {
     name: string;

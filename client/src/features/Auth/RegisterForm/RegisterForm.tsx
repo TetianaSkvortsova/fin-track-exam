@@ -88,7 +88,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
                 />
             </Grid>
 
-            {/* Buttons */}
             <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3}}>
                 <Button
                     variant="outlined"

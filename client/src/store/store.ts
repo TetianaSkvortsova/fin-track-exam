@@ -20,7 +20,6 @@ const combinedReducer = combineReducers({
 const rootReducer = (state: any, action: any) => {
     if (action.type === 'user/logout') {
         state = undefined;
-        // localStorage.removeItem('persist:root');
     }
     return combinedReducer(state, action);
 };

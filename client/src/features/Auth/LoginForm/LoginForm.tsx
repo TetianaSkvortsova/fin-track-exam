@@ -61,7 +61,6 @@ const LoginForm: React.FC<UseLoginFormProps> = ( {onCloseModal}) => {
                 </Typography>
             )}
 
-            {/* Buttons */}
             <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3}}>
                 <Button
                     variant="outlined"

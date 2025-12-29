@@ -6,6 +6,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AdjustIcon from '@mui/icons-material/Adjust';
 import GoalsPage from "../../pages/GoalsPage/GoalsPage.tsx";
+import * as React from "react";
 
 export type TMenuItem = {
     path: string;

@@ -22,5 +22,5 @@ export type SpendGoal = {
     description: string,
 };
 
-export type GoalsCard = Pick<Goal, 'id' | 'name' | 'targetDate' | 'balance' | 'targetAmount'>
-export type NewGoalsResponse = Omit<Goal, 'balance'>
+export type GoalsCard = Pick<Goal, 'id' | 'name' | 'targetDate' | 'balance' | 'targetAmount' | 'completed'>
+export type NewGoalsResponse = Omit<Goal, 'balance' | 'categoryTypeId'>

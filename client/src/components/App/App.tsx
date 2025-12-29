@@ -5,7 +5,7 @@ import AppModal from "../AppModal/AppModal.tsx";
 import {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import {setAuthToken} from "../../store/user/userSlice.ts";
-import {deleteCategory} from "../../store/category/categorySlice.ts";
+import {deleteCategory, getCategoryTypes} from "../../store/category/categorySlice.ts";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
 import {closeDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
 import {deleteTransaction} from "../../store/transactions/transactionsSlice.ts";
@@ -22,6 +22,9 @@ function App() {
 
     useEffect(() => {
         dispatch(setAuthToken());
+        if(token){
+            dispatch(getCategoryTypes());
+        }
     }, [dispatch, isAuth]);
 
     const handleConfirm = () => {
